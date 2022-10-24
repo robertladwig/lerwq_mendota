@@ -1,0 +1,72 @@
+models:
+   - GOTM-Selmaprotbas
+   - GLM-AED2
+   - Simstrat-AED2
+config_files:
+   GOTM-WET: GOTM-WET/fabm.yaml
+   GOTM-Selmaprotbas: GOTM-Selmaprotbas/fabm.yaml
+   GLM-AED2: GLM-AED2/aed2.nml
+   Simstrat-AED2: Simstrat-AED2/aed2.nml
+run_settings:
+   bio-shading: true
+   ode_method: Euler # Options: Euler, RK2, RK4, Pat1, PatRK2, PatRK4, ModPat1, ModPatRK2, ModPatRK4, ExtModPat1, ExtModPatRK2; default = Euler
+   split_factor: 1
+   bottom_everywhere: true
+   repair_state: true
+oxygen:
+   use: true
+   par_file: WQinput/oxygen.csv
+carbon:
+   use: true
+   par_file: WQinput/carbon.csv
+sediment:
+   use: true
+   par_file: WQinput/sediment.csv
+detritus:
+   use: true
+   par_file: WQinput/detritus.csv
+nitrogen:
+   use: true
+   par_file: WQinput/nitrogen.csv
+phosphorus:
+   use: true
+   par_file: WQinput/phosphorus.csv
+silica:
+   use: true
+   par_file: WQinput/silica.csv
+phytoplankton:
+   use: true
+   groups:
+      diatoms:
+         par_file: WQinput/diatoms.csv
+      cyanobacteria:
+         par_file: WQinput/cyanobacteria.csv
+      some_random_group:
+         par_file: WQinput/some_random_group.csv
+zooplankton:
+   use: false
+   groups:
+      zooplankton:
+         par_file: WQinput/zooplankton.csv
+fish:
+   use: false
+   groups:
+      benthivores:
+         par_file: WQinput/fish.csv
+macrophytes:
+   use: false
+   groups:
+      macrophytes:
+         par_file: WQinput/macrophytes.csv
+zoobenthos:
+   use: false
+   groups:
+      zoobenthos:
+         par_file: WQinput/zoobenthos.csv
+pathogens:
+   use: false
+   groups:
+      pathogens:
+         par_file: WQinput/pathogens.csv
+output:
+   something: true

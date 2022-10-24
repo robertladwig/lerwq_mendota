@@ -1,0 +1,23 @@
+domain,process,subprocess,model_coupled,parameter,default,unit,value,note
+water,initial_conditions,initial_phosphate,GOTM-Selmaprotbas,po,none,mmol P m-3,1,initial dissolved phosphate in the water column
+water,initial_conditions,initial_pom,GOTM-Selmaprotbas,dd_p,none,mmol P m-3,1,initial detritus-P in the water column
+sediment,initial_conditions,initial_phosphorus,GOTM-Selmaprotbas,fl_p,none,mmol P m-2,1,initial phosphorus fluff (= active sediment)
+sediment,initial_conditions,initial_phosphorus,GOTM-Selmaprotbas,pb,none,mmol P m-2,1,initial phosphorus bound to iron in the sediment
+water,initial_conditions,initial_phosphorus,GOTM-Selmaprotbas,pw,none,mmol P m-3,1,initial phosphorus bound to iron in the water column
+water,vertical_movement,sedimentation,GOTM-Selmaprotbas,wpo4,-1,m d-1,-1,"vertical velocity of suspended P-Fe (positive: upwards/floating, negative: downwards/sinking)"
+water,water_sediment_exchange,sedimentation,GOTM-Selmaprotbas,sedratepo4,0.5,m d-1,0.5,P-Fe sedimentation rate
+sediment,water_sediment_exchange,resuspension,GOTM-Selmaprotbas,eroratepo4,6,d-1,6,P-Fe erosion rate
+sediment,water_sediment_exchange,adsorption,GOTM-Selmaprotbas,po4ret,0.18,-,0.18,"phosphate retention rate, oxic sediments"
+sediment,burial,burial,GOTM-Selmaprotbas,pburialrate,0.007,d-1,0.007,phosphate burial rate
+sediment,water_sediment_exchange,adsorption,GOTM-Selmaprotbas,pliberationrate,0.1,d-1,0.1,"phosphate liberation rate, anoxic sediments"
+sediment,burial,burial,GOTM-Selmaprotbas,ipo4th,100,mmol P m-2,100,maximum phosphorus density available for burial
+water,water_column_processes,phosphorus,GLM-AED2,frp_initial,0.06,mmol P m-3,0.06,-
+water,water_column_processes,phosphorus,GLM-AED2,frp_initial,0.06,mmol P m-3,0.06,-
+water,water_sediment_exchange,phosphorus,GLM-AED2,Fsed_frp,0.5,mmol P m-3 d-1,0.5,Sediment-water flux for inorganic phosphorus
+water,water_sediment_exchange,phosphorus,GLM-AED2,Fsed_frp,0.5,mmol P m-3 d-1,0.5,Sediment-water flux for inorganic phosphorus
+water,water_sediment_exchange,phosphorus,GLM-AED2,theta_sed_frp,1.08,-,1.08,half-saturation concentration of  inorganic phosphorus sediment flux
+water,water_sediment_exchange,phosphorus,GLM-AED2,theta_sed_frp,1.08,-,1.08,half-saturation concentration of  inorganic phosphorus sediment flux
+water,water_sediment_exchange,phosphorus,GLM-AED2,Ksed_frp,200,mmol P m-3,200,Arrhenius temperature multiplier for sediment  inorganic phosphorus flux
+water,water_sediment_exchange,phosphorus,GLM-AED2,Ksed_frp,200,mmol P m-3,200,Arrhenius temperature multiplier for sediment  inorganic phosphorus flux
+water,water_column_processes,adsorption,GLM-AED2,Qmax,1,-,1,Sorption constant
+water,water_column_processes,adsorption,GLM-AED2,Qmax,1,-,1,Sorption constant

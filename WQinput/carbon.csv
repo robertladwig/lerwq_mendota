@@ -1,0 +1,112 @@
+domain,process,subprocess,model_coupled,parameter,default,unit,value,note
+water,initial_conditions,initial_pom,GOTM-Selmaprotbas,dd_c,none,mmol C m-3,1,Initial carbon detritus
+sediment,initial_conditions,initial_pom,GOTM-Selmaprotbas,fl_c,none,mmol C m-2,1,Initial carbon fluff
+water,decomposition,mineralisation,GOTM-Selmaprotbas,dn,0.003,d-1,0.003,Detritus mineralisation rate at 20 degC
+water,decomposition,mineralisation,GOTM-Selmaprotbas,q10_rec,0.15,K-1,0.15,temperature dependence of detritus remineralization
+water,light_extinction,light_extinction,GOTM-Selmaprotbas,kc,0.075,m2 mmolC-1,0.075,specific light attenuation of detritus
+water,vertical_movement,sedimentation,GOTM-Selmaprotbas,wdz,-4.5,m d-1,-4.5,"vertical velocity of detritus (positive: upwards/floating, negative: downwards/sinking)"
+sediment,decomposition,mineralisation,GOTM-Selmaprotbas,dn_sed,0.002,d-1,0.002,Sediment mineralisation rate at 20 degC
+sediment,decomposition,mineralisation,GOTM-Selmaprotbas,q10_recs,0.175,K-1,0.175,temperature dependence of sediment remineralization
+sediment,water_sediment_exchange,resuspension,GOTM-Selmaprotbas,tau_crit,0.07,N m-2,0.07,critical shear stress
+water,water_sediment_exchange,sedimentation,GOTM-Selmaprotbas,sedrate,2.25,m d-1,2.25,detritus sedimentation rate
+sediment,water_sediment_exchange,resuspension,GOTM-Selmaprotbas,erorate,6,d-1,6,sediment erosion rate
+sediment,water_sediment_exchange,resuspension,GOTM-Selmaprotbas,br0,0.03,d-1,0.03,bioresuspension rate
+sediment,burial,burial,GOTM-Selmaprotbas,fl_burialrate,0.001,d-1,0.001,sediment burial rate
+water,initial_conditions,initial_pH,GLM-AED2,pH_initial,8.4,-,8.4,initial pH
+water,initial_conditions,initial_pH,GLM-AED2,pH_initial,8.4,-,8.4,initial pH
+water,initial_conditions,initial_dim,GLM-AED2,dic_initial,200,-,200,initial dic
+water,initial_conditions,initial_dim,GLM-AED2,dic_initial,200,-,200,initial dic
+water,initial_conditions,initial_methane,GLM-AED2,ch4_initial,5,-,5,initial methane
+water,initial_conditions,initial_methane,GLM-AED2,ch4_initial,5,-,5,initial methane
+water,water_atmosphere_exchange,co2,GLM-AED2,atm_co2,4.00E-04,-,4.00E-04,Atmospheric CO2 concentration
+water,water_atmosphere_exchange,co2,GLM-AED2,atm_co2,4.00E-04,-,4.00E-04,Atmospheric CO2 concentration
+water,water_atmosphere_exchange,equation_options_co2,GLM-AED2,co2_model,1,(integer),1,"1:, 2:"
+water,water_atmosphere_exchange,equation_options_co2,GLM-AED2,co2_model,1,(integer),1,"1:, 2:"
+water,water_atmosphere_exchange,equation_options_alkalinity,GLM-AED2,alk_mode,2,(integer),2,"1:, 2:"
+water,water_atmosphere_exchange,equation_options_alkalinity,GLM-AED2,alk_mode,2,(integer),2,"1:, 2:"
+water,water_atmosphere_exchange,alkalinity,GLM-AED2,ionic,0.1,-,0.1,Ionic strength
+water,water_atmosphere_exchange,alkalinity,GLM-AED2,ionic,0.1,-,0.1,Ionic strength
+water,water_atmosphere_exchange,equation_options_co2,GLM-AED2,co2_piston_model,1,(integer),1,"1:, 2:"
+water,water_atmosphere_exchange,equation_options_co2,GLM-AED2,co2_piston_model,1,(integer),1,"1:, 2:"
+water,water_atmosphere_exchange,methane,GLM-AED2,atm_ch4,1.76E-06,-,1.76E-06,Atmospheric methane concentration
+water,water_atmosphere_exchange,methane,GLM-AED2,atm_ch4,1.76E-06,-,1.76E-06,Atmospheric methane concentration
+water,water_atmosphere_exchange,equation_options_methane,GLM-AED2,ch4_piston_model,1,(integer),1,"1:, 2:"
+water,water_atmosphere_exchange,equation_options_methane,GLM-AED2,ch4_piston_model,1,(integer),1,"1:, 2:"
+sediment,water_sediment_exchange,sediment_flux_dim,GLM-AED2,Fsed_dic,250,-,250,Sediment-water flux for dic
+sediment,water_sediment_exchange,sediment_flux_dim,GLM-AED2,Fsed_dic,250,-,250,Sediment-water flux for dic
+sediment,water_sediment_exchange,sediment_flux_dim,GLM-AED2,Ksed_dic,7,-,7,half-saturation concentration of dic sediment flux
+sediment,water_sediment_exchange,sediment_flux_dim,GLM-AED2,Ksed_dic,7,-,7,half-saturation concentration of dic sediment flux
+sediment,water_sediment_exchange,sediment_flux_dim,GLM-AED2,theta_sed_dic,1.08,-,1.08,Arrhenius temperature multiplier for sediment dic flux
+sediment,water_sediment_exchange,sediment_flux_dim,GLM-AED2,theta_sed_dic,1.08,-,1.08,Arrhenius temperature multiplier for sediment dic flux
+sediment,water_sediment_exchange,sediment_flux_methane,GLM-AED2,Fsed_ch4,60,-,60,Sediment-water flux for methane
+sediment,water_sediment_exchange,sediment_flux_methane,GLM-AED2,Fsed_ch4,60,-,60,Sediment-water flux for methane
+sediment,water_sediment_exchange,sediment_flux_methane,GLM-AED2,Ksed_ch4,30,-,30,half-saturation concentration of methane sediment flux
+sediment,water_sediment_exchange,sediment_flux_methane,GLM-AED2,Ksed_ch4,30,-,30,half-saturation concentration of methane sediment flux
+sediment,water_sediment_exchange,sediment_flux_methane,GLM-AED2,theta_sed_ch4,1.08,-,1.08,Arrhenius temperature multiplier for sediment methane flux
+sediment,water_sediment_exchange,sediment_flux_methane,GLM-AED2,theta_sed_ch4,1.08,-,1.08,Arrhenius temperature multiplier for sediment methane flux
+water,decomposition,oxidation_methane,GLM-AED2,Rch4ox,10,-,10,Methane oxidation rate
+water,decomposition,oxidation_methane,GLM-AED2,Rch4ox,10,-,10,Methane oxidation rate
+water,decomposition,oxidation_methane,GLM-AED2,Kch4ox,0.5,-,0.5,Saturation concentration for the oxidation of methane
+water,decomposition,oxidation_methane,GLM-AED2,Kch4ox,0.5,-,0.5,Saturation concentration for the oxidation of methane
+water,decomposition,oxidation_methane,GLM-AED2,vTch4ox,1.08,-,1.08,Arrhenius temperature multiplier for methane oxidation
+water,decomposition,oxidation_methane,GLM-AED2,vTch4ox,1.08,-,1.08,Arrhenius temperature multiplier for methane oxidation
+water,organic,organic,GLM-AED2,poc_initial,78.5,?,78.5,OM
+water,organic,organic,GLM-AED2,poc_initial,78.5,?,78.5,OM
+water,organic,organic,GLM-AED2,doc_initial,30,?,30,OM
+water,organic,organic,GLM-AED2,doc_initial,30,?,30,OM
+water,organic,organic,GLM-AED2,pon_initial,0.1,?,0.1,OM
+water,organic,organic,GLM-AED2,pon_initial,0.1,?,0.1,OM
+water,organic,organic,GLM-AED2,don_initial,0.1,?,0.1,OM
+water,organic,organic,GLM-AED2,don_initial,0.1,?,0.1,OM
+water,organic,organic,GLM-AED2,pop_initial,0.1,?,0.1,OM
+water,organic,organic,GLM-AED2,pop_initial,0.1,?,0.1,OM
+water,organic,organic,GLM-AED2,dop_initial,1.5,?,1.5,OM
+water,organic,organic,GLM-AED2,dop_initial,1.5,?,1.5,OM
+water,organic,organic,GLM-AED2,docr_initial,120,?,120,OM
+water,organic,organic,GLM-AED2,docr_initial,120,?,120,OM
+water,organic,organic,GLM-AED2,dopr_initial,0.1,?,0.1,OM
+water,organic,organic,GLM-AED2,dopr_initial,0.1,?,0.1,OM
+water,organic,organic,GLM-AED2,cpom_initial,100,?,100,OM
+water,organic,organic,GLM-AED2,cpom_initial,100,?,100,OM
+water,organic,organic,GLM-AED2,Rdom_minerl,0.5,?,0.5,OM
+water,organic,organic,GLM-AED2,Rdom_minerl,0.5,?,0.5,OM
+water,organic,organic,GLM-AED2,Kpom_hydrol,60,?,60,OM
+water,organic,organic,GLM-AED2,Kpom_hydrol,60,?,60,OM
+water,organic,organic,GLM-AED2,Kdom_minerl,100,?,100,OM
+water,organic,organic,GLM-AED2,Kdom_minerl,100,?,100,OM
+water,organic,organic,GLM-AED2,Rpoc_hydrol,0.07,?,0.07,OM
+water,organic,organic,GLM-AED2,Rpoc_hydrol,0.07,?,0.07,OM
+water,organic,organic,GLM-AED2,Rpon_hydrol,0.05,?,0.05,OM
+water,organic,organic,GLM-AED2,Rpon_hydrol,0.05,?,0.05,OM
+water,organic,organic,GLM-AED2,Rpop_hydrol,0.08,?,0.08,OM
+water,organic,organic,GLM-AED2,Rpop_hydrol,0.08,?,0.08,OM
+water,organic,organic,GLM-AED2,theta_hydrol,1.08,?,1.08,OM
+water,organic,organic,GLM-AED2,theta_hydrol,1.08,?,1.08,OM
+water,organic,organic,GLM-AED2,theta_minerl,1.08,?,1.08,OM
+water,organic,organic,GLM-AED2,theta_minerl,1.08,?,1.08,OM
+water,organic,organic,GLM-AED2,simDenitrification,1,?,1,OM
+water,organic,organic,GLM-AED2,simDenitrification,1,?,1,OM
+water,noncohesive,tracer,GLM-AED2,num_ss,1,?,1,Tracer
+water,noncohesive,tracer,GLM-AED2,num_ss,1,?,1,Tracer
+water,noncohesive,tracer,GLM-AED2,ss_initial,1,?,1,Tracer
+water,noncohesive,tracer,GLM-AED2,ss_initial,1,?,1,Tracer
+water,noncohesive,tracer,GLM-AED2,Ke_ss,0.06,?,0.06,Tracer
+water,noncohesive,tracer,GLM-AED2,Ke_ss,0.06,?,0.06,Tracer
+water,noncohesive,tracer,GLM-AED2,settling,3,?,3,Tracer
+water,noncohesive,tracer,GLM-AED2,settling,3,?,3,Tracer
+water,noncohesive,tracer,GLM-AED2,w_ss,-0.03,?,-0.03,Tracer
+water,noncohesive,tracer,GLM-AED2,w_ss,-0.03,?,-0.03,Tracer
+water,noncohesive,tracer,GLM-AED2,d_ss,2.00E-06,?,2.00E-06,Tracer
+water,noncohesive,tracer,GLM-AED2,d_ss,2.00E-06,?,2.00E-06,Tracer
+water,noncohesive,tracer,GLM-AED2,rho_ss,1500,?,1500,Tracer
+water,noncohesive,tracer,GLM-AED2,rho_ss,1500,?,1500,Tracer
+water,noncohesive,tracer,GLM-AED2,resuspension,1,?,1,Tracer
+water,noncohesive,tracer,GLM-AED2,resuspension,1,?,1,Tracer
+water,noncohesive,tracer,GLM-AED2,epsilon,0.007,?,0.007,Tracer
+water,noncohesive,tracer,GLM-AED2,epsilon,0.007,?,0.007,Tracer
+water,noncohesive,tracer,GLM-AED2,tau_0,0.03,?,0.03,Tracer
+water,noncohesive,tracer,GLM-AED2,tau_0,0.03,?,0.03,Tracer
+water,noncohesive,tracer,GLM-AED2,tau_r,1,?,1,Tracer
+water,noncohesive,tracer,GLM-AED2,tau_r,1,?,1,Tracer
+water,noncohesive,tracer,GLM-AED2,Ktau_0,0.001,?,0.001,Tracer
+water,noncohesive,tracer,GLM-AED2,Ktau_0,0.001,?,0.001,Tracer

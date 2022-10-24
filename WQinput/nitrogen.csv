@@ -1,0 +1,68 @@
+domain,process,subprocess,model_coupled,parameter,default,unit,value,note
+water,initial_conditions,initial_ammonium,GLM-AED2,amm_initial,2.6,mmol N m-3,2.6,initial NH4 concentration
+water,initial_conditions,initial_ammonium,GLM-AED2,amm_initial,2.6,mmol N m-3,2.6,initial NH4 concentration
+water,initial_conditions,initial_ammonium,GOTM-Selmaprotbas,aa,none,mmol N m-3,1,initial dissolved ammonium in the water column
+water,initial_conditions,initial_nitrate,GLM-AED2,nit_initial,0.1,mmol N m-3,0.1,initial NO3 concentration
+water,initial_conditions,initial_nitrate,GLM-AED2,nit_initial,0.1,mmol N m-3,0.1,initial NO3 concentration
+water,initial_conditions,initial_nitrate,GOTM-Selmaprotbas,nn,none,mmol N m-3,1,initial dissolved nitrate in the water column
+water,initial_conditions,initial_n2o,GLM-AED2,n2o_initial,0.1,?,0.1,initial n2o in the water column
+water,initial_conditions,initial_n2o,GLM-AED2,n2o_initial,0.1,?,0.1,initial n2o in the water column
+water,initial_conditions,initial_pom,GOTM-Selmaprotbas,dd_n,none,mmol N m-3,1,initial detritus-N in the water column
+sediment,initial_conditions,initial_nitrogen,GOTM-Selmaprotbas,fl_n,none,mmol N m-2,1,initial nitrogen fluff (= active sediment)
+water,denitrification,denitrification,GLM-AED2,Rdenit,0.5,d-1,0.5,maximum reaction rate of denitrification @ 20C
+water,denitrification,denitrification,GLM-AED2,Rdenit,0.5,d-1,0.5,maximum reaction rate of denitrification @ 20C
+water,denitrification,denitrification,GOTM-Selmaprotbas,ade_r0,0.1,d-1,0.1,maximum chemoautolithotrophic denitrification rate
+water,denitrification,denitrification,GOTM-Selmaprotbas,alphaade,1,mmol N m-3,1,half-saturation constant for chemoautolithotrophic denitrification
+water,denitrification,denitrification,GLM-AED2,theta_denit,1.08,-,1.08,Arrhenius temperature multiplier for denitrification
+water,denitrification,denitrification,GLM-AED2,theta_denit,1.08,-,1.08,Arrhenius temperature multiplier for denitrification
+sediment,denitrification,refractory_fractions,GOTM-Selmaprotbas,fds,0.7,-,0.7,fraction of sediment remineralization fueled by denitrification
+water,nitrification,nitrification,GLM-AED2,Rnitrif,0.5,d-1,0.5,maximum reaction rate of nitrification @ 20C
+water,nitrification,nitrification,GLM-AED2,Rnitrif,0.5,d-1,0.5,maximum reaction rate of nitrification @ 20C
+water,nitrification,nitrification,GLM-AED2,Knitrif,78.1,?,78.1,saturation concentration for nitrification
+water,nitrification,nitrification,GLM-AED2,Knitrif,78.1,?,78.1,saturation concentration for nitrification
+water,nitrification,nitrification,GLM-AED2,theta_nitrif,1.08,-,1.08,Arrhenius temperature multiplier for nitrification
+water,nitrification,nitrification,GLM-AED2,theta_nitrif,1.08,-,1.08,Arrhenius temperature multiplier for nitrification
+water,nitrification,nitrification,GLM-AED2,Rnh4o2,1,?,1,reaction rate
+water,nitrification,nitrification,GLM-AED2,Rnh4o2,1,?,1,reaction rate
+water,nitrification,nitrification,GLM-AED2,Rno2o2,1,?,1,reaction rate
+water,nitrification,nitrification,GLM-AED2,Rno2o2,1,?,1,reaction rate
+water,nitrification,equation_options,GLM-AED2,simN2O,0,(integer),0,"1:, 2:"
+water,nitrification,equation_options,GLM-AED2,simN2O,0,(integer),0,"1:, 2:"
+water,nitrification,nitrification,GLM-AED2,Rn2o,0.05,?,0.05,reaction rate
+water,nitrification,nitrification,GLM-AED2,Rn2o,0.05,?,0.05,reaction rate
+water,ammonium_oxidation,ammonium_oxidation,GLM-AED2,Kpart_ammox,1,?,1,saturation concentration in ammonium oxidation equation
+water,ammonium_oxidation,ammonium_oxidation,GLM-AED2,Kpart_ammox,1,?,1,saturation concentration in ammonium oxidation equation
+water,anammox,anammox,GLM-AED2,Kin_deamm,1,?,1,saturation concentration in deammonification equation
+water,anammox,anammox,GLM-AED2,Kin_deamm,1,?,1,saturation concentration in deammonification equation
+water,anammox,anammox,GLM-AED2,Ranammox,0.001,?,0.001,anaerobic ammonium oxidation rate
+water,anammox,anammox,GLM-AED2,Ranammox,0.001,?,0.001,anaerobic ammonium oxidation rate
+water,anammox,anammox,GLM-AED2,Kanmx_nit,2,?,2,saturation concentration in anammox equation for nitrate
+water,anammox,anammox,GLM-AED2,Kanmx_nit,2,?,2,saturation concentration in anammox equation for nitrate
+water,anammox,anammox,GLM-AED2,Kanmx_amm,2,?,2,saturation concentration in anammox equation for ammonium
+water,anammox,anammox,GLM-AED2,Kanmx_amm,2,?,2,saturation concentration in anammox equation for ammonium
+water,water_atmosphere_exchange,n2o,GLM-AED2,atm_n2o,3.20E-07,?,3.20E-07,atmospheric concentration of n2o
+water,water_atmosphere_exchange,n2o,GLM-AED2,atm_n2o,3.20E-07,?,3.20E-07,atmospheric concentration of n2o
+water,water_atmosphere_exchange,n2o,GLM-AED2,n2o_piston_model,4,(integer),4,"1:, 2:"
+water,water_atmosphere_exchange,n2o,GLM-AED2,n2o_piston_model,4,(integer),4,"1:, 2:"
+water,denitrification,denitrification,GLM-AED2,Kdenit,3,?,3,saturation concentration in denitrification equation
+water,denitrification,denitrification,GLM-AED2,Kdenit,3,?,3,saturation concentration in denitrification equation
+water,denitrification,nitrate_reduc_to_ammonium,GLM-AED2,Rdnra,0.01,?,0.01,rate of dissimilatory nitrate reduction to ammonium
+water,denitrification,nitrate_reduc_to_ammonium,GLM-AED2,Rdnra,0.01,?,0.01,rate of dissimilatory nitrate reduction to ammonium
+water,denitrification,nitrate_reduc_to_ammonium,GLM-AED2,Kdnra_oxy,2,?,2,saturation concentration in DNRA equation
+water,denitrification,nitrate_reduc_to_ammonium,GLM-AED2,Kdnra_oxy,2,?,2,saturation concentration in DNRA equation
+sediment,water_sediment_exchange,sediment_flux_ammonium,GLM-AED2,Fsed_amm,30,?,30,Sediment-water flux for ammonium
+sediment,water_sediment_exchange,sediment_flux_ammonium,GLM-AED2,Fsed_amm,30,?,30,Sediment-water flux for ammonium
+sediment,water_sediment_exchange,sediment_flux_ammonium,GLM-AED2,Ksed_amm,31.25,?,31.25,saturation concentration in ammonium sediment flux equation
+sediment,water_sediment_exchange,sediment_flux_ammonium,GLM-AED2,Ksed_amm,31.25,?,31.25,saturation concentration in ammonium sediment flux equation
+sediment,water_sediment_exchange,sediment_flux_ammonium,GLM-AED2,theta_sed_amm,1.08,?,1.08,Arrhenius temperature multiplier for ammonium sediment flux
+sediment,water_sediment_exchange,sediment_flux_ammonium,GLM-AED2,theta_sed_amm,1.08,?,1.08,Arrhenius temperature multiplier for ammonium sediment flux
+sediment,water_sediment_exchange,sediment_flux_nitrate,GLM-AED2,Fsed_nit,5.2,?,5.2,Sediment-water flux for nitrate
+sediment,water_sediment_exchange,sediment_flux_nitrate,GLM-AED2,Fsed_nit,5.2,?,5.2,Sediment-water flux for nitrate
+sediment,water_sediment_exchange,sediment_flux_nitrate,GLM-AED2,Ksed_nit,100,?,100,saturation concentration in nitrate sediment flux equation
+sediment,water_sediment_exchange,sediment_flux_nitrate,GLM-AED2,Ksed_nit,100,?,100,saturation concentration in nitrate sediment flux equation
+sediment,water_sediment_exchange,sediment_flux_nitrate,GLM-AED2,theta_sed_nit,1.08,?,1.08,Arrhenius temperature multiplier for nitrate sediment flux
+sediment,water_sediment_exchange,sediment_flux_nitrate,GLM-AED2,theta_sed_nit,1.08,?,1.08,Arrhenius temperature multiplier for nitrate sediment flux
+sediment,water_sediment_exchange,sediment_flux_n2o,GLM-AED2,Fsed_n2o,0,?,0,Sediment-water flux for n2o
+sediment,water_sediment_exchange,sediment_flux_n2o,GLM-AED2,Fsed_n2o,0,?,0,Sediment-water flux for n2o
+sediment,water_sediment_exchange,sediment_flux_n2o,GLM-AED2,Ksed_n2o,100,?,100,saturation concentration in n2o sediment equation
+sediment,water_sediment_exchange,sediment_flux_n2o,GLM-AED2,Ksed_n2o,100,?,100,saturation concentration in n2o sediment equation

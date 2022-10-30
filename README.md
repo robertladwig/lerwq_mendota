@@ -7,6 +7,9 @@ Currently includes:
 - GOTM-Selmaprotas
 - GOTM-WET  
 
+Planned:
+- PCLake
+
 Some commands to deal with Docker:
 ```{r gh-run, eval =FALSE}
 # build a new container from current DOCKERFILE

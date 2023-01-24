@@ -18,12 +18,21 @@ sudo docker build -t lerwq .
 docker pull hydrobert/lerwq:latest
 # run the installed docker container
 sudo docker run --rm -ti -e PASSWORD=password -p 8000:8000 lerwq
+# run the installed docker container and link to volume
+sudo docker run --rm -ti -e -v /home/Projects/LER_docker/lerwq_mendota:/mendota/calibration PASSWORD=password -p 8000:8000 lerwq
 # stop all containers
 docker kill $(docker ps -q)
 docker rm $(docker ps -a -q)
 # see all installed containers, first find "IMAGE ID"
 docker images -a
-docker rmi "IMAGE ID"
+docker rmi --force "IMAGE ID"
 # purge everything docker-related
 docker system prune --volumes
 ```
+
+## Observed field data
+[Physics](https://portal.edirepository.org/nis/mapbrowse?packageid=knb-lter-ntl.29.34)
+[Chemistry](https://portal.edirepository.org/nis/mapbrowse?packageid=knb-lter-ntl.2.36)
+[Phytoplankton](https://portal.edirepository.org/nis/mapbrowse?packageid=knb-lter-ntl.88.31)
+[Nutrients](https://portal.edirepository.org/nis/mapbrowse?packageid=knb-lter-ntl.1.57)
+[Zooplankton](https://portal.edirepository.org/nis/mapbrowse?packageid=knb-lter-ntl.90.33)

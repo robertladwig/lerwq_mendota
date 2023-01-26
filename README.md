@@ -17,9 +17,9 @@ sudo docker build -t lerwq .
 # download the docker
 docker pull hydrobert/lerwq:latest
 # run the installed docker container
-sudo docker run --rm -ti -e PASSWORD=password -p 8000:8000 lerwq
+sudo docker run --rm -ti -e PASSWORD=password -p 8000:8000 hydrobert/lerwq
 # run the installed docker container and link to volume
-sudo docker run --rm -ti -v /home/robert/Projects/LER_docker/lerwq_mendota:/home/rstudio/calibration -e PASSWORD=password -p 8000:8000 hydrobert/lerwq
+sudo docker run --rm -ti -v /home/robert/Projects/LER_docker/lerwq_mendota/calibration:/home/rstudio/calibration -e PASSWORD=password -p 8000:8000 hydrobert/lerwq
 # stop all containers
 docker kill $(docker ps -q)
 docker rm $(docker ps -a -q)

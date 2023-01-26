@@ -25,7 +25,7 @@ RUN 	Rscript -e 'install.packages("ncdf4")' \
 	&& Rscript -e 'devtools::install_github("aemon-j/GOTMr", ref = "main")' \
 	&& Rscript -e 'devtools::install_github("aemon-j/WETr", ref = "main")' \
 	&& Rscript -e 'devtools::install_github("aemon-j/SelmaprotbasR", ref = "main")' \
-	&& Rscript -e 'devtools::install_github("aemon-j/PCLakeR", ref = "main")' \
+	&& Rscript -e 'devtools::install_github("hdugan/NTLlakeloads", ref = "master")' \
 	&& Rscript -e 'install.packages("configr")' \
 	&& Rscript -e 'install.packages("import")' \
 	&& Rscript -e 'install.packages("FME")' \
@@ -68,9 +68,6 @@ COPY run_LER-WQ.R /home/rstudio/mendota/
 RUN chmod -R 777 .
 COPY WQinput /home/rstudio/mendota/WQinput
 WORKDIR /home/rstudio/mendota/WQinput
-RUN chmod -R 777 .
-RUN	mkdir /home/rstudio/calibration
-WORKDIR /home/rstudio/calibration
 RUN chmod -R 777 .
 
 COPY rserver.conf /etc/rstudio/rserver.conf

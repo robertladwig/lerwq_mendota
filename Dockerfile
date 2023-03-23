@@ -1,0 +1,78 @@
+FROM rocker/verse:3.6.3-ubuntu18.04
+
+MAINTAINER  "Robert Ladwig" rladwig2@wisc.edu
+
+RUN apt-get update -qq && apt-get -y --no-install-recommends install \
+	gfortran-8 \
+	gfortran \
+	libgd-dev \
+	git \
+	build-essential \
+	libnetcdf-dev \
+	hdf4-tools \
+	libtirpc-dev \
+	ca-certificates \
+	&& update-ca-certificates
+
+RUN 	Rscript -e 'install.packages("ncdf4")' \
+	&& Rscript -e 'install.packages("devtools")' \
+	&& Rscript -e 'devtools::install_github("aemon-j/GLM3r",ref="v3.1.1")' \
+	&& Rscript -e 'devtools::install_github("USGS-R/glmtools", ref = "ggplot_overhaul")' \
+	&& Rscript -e 'devtools::install_github("GLEON/rLakeAnalyzer")' \
+	&& Rscript -e 'devtools::install_github("aemon-j/gotmtools", ref = "main")' \
+	&& Rscript -e 'devtools::install_github("aemon-j/SimstratR", ref = "main")' \
+	&& Rscript -e 'devtools::install_github("aemon-j/MyLakeR", ref = "main")' \
+	&& Rscript -e 'devtools::install_github("aemon-j/GOTMr", ref = "main")' \
+	&& Rscript -e 'devtools::install_github("aemon-j/WETr", ref = "main")' \
+	&& Rscript -e 'devtools::install_github("aemon-j/SelmaprotbasR", ref = "main")' \
+	&& Rscript -e 'devtools::install_github("aemon-j/PCLakeR", ref = "main")' \
+	&& Rscript -e 'install.packages("configr")' \
+	&& Rscript -e 'install.packages("import")' \
+	&& Rscript -e 'install.packages("FME")' \
+	&& Rscript -e 'install.packages("lubridate")' \
+	&& Rscript -e 'install.packages("plyr")' \
+	&& Rscript -e 'install.packages("reshape2")' \
+	&& Rscript -e 'install.packages("zoo")' \
+	&& Rscript -e 'install.packages("ggplot2")' \
+	&& Rscript -e 'install.packages("dplyr")' \
+	&& Rscript -e 'install.packages("RColorBrewer")' \
+	&& Rscript -e 'install.packages("tools")' \
+	&& Rscript -e 'install.packages("akima")' \
+	&& Rscript -e 'install.packages("lazyeval")' \
+	&& Rscript -e 'install.packages("hydroGOF")' \
+	&& Rscript -e 'install.packages("RSQLite")' \
+	&& Rscript -e 'install.packages("XML")' \
+	&& Rscript -e 'install.packages("MBA")' \
+	&& Rscript -e 'install.packages("colorRamps")' \
+	&& Rscript -e 'install.packages("gridExtra")' \
+	&& Rscript -e 'install.packages("readr")' \
+	&& Rscript -e 'install.packages("ggpubr")' \
+	&& Rscript -e 'install.packages("stringr")' \
+	&& Rscript -e 'install.packages("data.table")' \
+	&& Rscript -e 'install.packages("parallel")' \
+	&& Rscript -e 'devtools::install_github("aemon-j/LakeEnsemblR", ref = "main")' \
+	&& Rscript -e 'devtools::install_github("aemon-j/LakeEnsemblR.WQ", ref = "main")'
+
+RUN 	echo "rstudio  ALL=(ALL) NOPASSWD:ALL">>/etc/sudoers
+
+RUN	mkdir /home/rstudio/mendota
+WORKDIR /home/rstudio/mendota
+COPY LakeEnsemblR.yaml /home/rstudio/mendota/
+COPY LakeEnsemblR_bathymetry_standard.csv /home/rstudio/mendota/
+COPY LakeEnsemblR_inflow_standard.csv /home/rstudio/mendota/
+COPY LakeEnsemblR_initial_standard.csv /home/rstudio/mendota/
+COPY LakeEnsemblR_meteo_standard.csv /home/rstudio/mendota/
+COPY LakeEnsemblR_WQ.yaml /home/rstudio/mendota/
+COPY LakeEnsemblR_wtemp_profile_standard.csv /home/rstudio/mendota/
+COPY run_LER-WQ.R /home/rstudio/mendota/
+RUN chmod -R 777 .
+COPY WQinput /home/rstudio/mendota/WQinput
+WORKDIR /home/rstudio/mendota/WQinput
+RUN chmod -R 777 .
+RUN	mkdir /home/rstudio/calibration
+WORKDIR /home/rstudio/calibration
+RUN chmod -R 777 .
+
+COPY rserver.conf /etc/rstudio/rserver.conf
+RUN apt-get update && apt-get install -y python3-pip
+RUN pip3 install py-cdrive-api

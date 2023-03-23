@@ -1,24 +1,5 @@
 setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 
-remotes::install_github("GLEON/rLakeAnalyzer")
-remotes::install_github("aemon-j/GLM3r", ref = "v3.1.1")
-remotes::install_github("robertladwig/GLM3r", ref = "main")
-remotes::install_github("USGS-R/glmtools", ref = "ggplot_overhaul")
-remotes::install_github("aemon-j/FLakeR", ref = "inflow")
-remotes::install_github("aemon-j/GOTMr")
-remotes::install_github("aemon-j/gotmtools")
-remotes::install_github("aemon-j/SimstratR")
-remotes::install_github("aemon-j/MyLakeR")
-
-devtools::install_github("aemon-j/SelmaprotbasR")
-devtools::install_github("aemon-j/WETr")
-
-remotes::install_github("aemon-j/LakeEnsemblR")
-remotes::install_github("aemon-j/LakeEnsemblR.WQ")
-remotes::install_github("robertladwig/LakeEnsemblR.WQ")
-
-setwd('LakeMendota/')
-
 # Load LakeEnsemblR
 library(LakeEnsemblR)
 library(LakeEnsemblR.WQ)
@@ -54,7 +35,8 @@ visualise_dictionary()
 
 create_input_tables(folder = ".", config_file = 'LakeEnsemblR_WQ.yaml', folder_out = 'WQinput', 
                     input = 'all',
-                    models_coupled = c("GLM-AED2", "Simstrat-AED2", "GOTM-Selmaprotbas"))
+                    models_coupled = c("GLM-AED2", "Simstrat-AED2", "GOTM-Selmaprotbas",
+                                       'GOTM-WET'))
 #("GLM-AED2", "GOTM-Selmaprotbas", "GOTM-WET", "Simstrat-AED2", "MyLake", "PCLake")
 
 LakeEnsemblR.WQ::export_config(config_file = 'LakeEnsemblR_WQ.yaml', 
@@ -69,7 +51,7 @@ library(configr)
 
 GLM3r::run_glm('GLM-AED2/')
 SimstratR::run_simstrat('Simstrat-AED2/')
-# WETr::run_wet('GOTM-WET/')
+WETr::run_wet('GOTM-WET/')
 SelmaprotbasR::run_gotm_sp('GOTM-Selmaprotbas/')
 
 glmtools::sim_vars('GLM-AED2/output/output.nc')

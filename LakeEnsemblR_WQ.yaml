@@ -2,6 +2,7 @@ models:
    - GOTM-Selmaprotbas
    - GLM-AED2
    - Simstrat-AED2
+   - GOTM-WET
 config_files:
    GOTM-WET: GOTM-WET/fabm.yaml
    GOTM-Selmaprotbas: GOTM-Selmaprotbas/fabm.yaml

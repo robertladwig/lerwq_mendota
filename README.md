@@ -36,3 +36,4 @@ docker system prune --volumes
 [Phytoplankton](https://portal.edirepository.org/nis/mapbrowse?packageid=knb-lter-ntl.88.31)
 [Nutrients](https://portal.edirepository.org/nis/mapbrowse?packageid=knb-lter-ntl.1.57)
 [Zooplankton](https://portal.edirepository.org/nis/mapbrowse?packageid=knb-lter-ntl.90.33)
+[Chlorophyll-a](https://portal.edirepository.org/nis/mapbrowse?packageid=knb-lter-ntl.38.28)

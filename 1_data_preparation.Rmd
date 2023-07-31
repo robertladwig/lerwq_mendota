@@ -1,0 +1,124 @@
+---
+title: "1_data_preparation"
+author: "Robert Ladwig"
+date: "2023-07-31"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+# remove everything from workspace
+rm(list = ls())
+
+# set wd to current dir of script
+setwd(dirname(rstudioapi::getSourceEditorContext()$path))
+
+library(glmtools)
+library(tidyverse)
+library(rLakeAnalyzer)
+library(GLM3r)
+library(lubridate)
+
+```
+
+```{r start}
+setwd('GLM-AED2/')
+
+inflow_1 <- read.csv('../inflows/Mendota_pheasant_branch_30year2xP.csv')
+inflow_2 <- read.csv('../inflows/Mendota_yahara_30year2xP.csv')
+
+inflow <- read.csv('inflow_1.csv')
+outflow <- read.csv('outflow_1.csv')
+meteo <- read.csv('meteo_file.csv')
+
+meteorology <- read.csv("../inflows/NLDAS2_Mendota_1979_2016_cell_5_GLMReady_cut_timezonecorr.csv")
+
+outflow_1 <- read.csv('../inflows/Mendota_outflow_30year.csv')
+```
+## (1) check if outflow is the same as the one in Ladwig et al. (2021)
+
+```{r outflow}
+df_1 = outflow  %>% mutate(time = as.Date(Time))
+df_2 = outflow_1 %>% rename(Time = time) %>% mutate(time = as.Date(Time))
+
+str(df_1)
+str(df_2)
+
+df = merge(df_1, df_2, by = 'time')
+
+df$FLOW.x == df$FLOW.y
+
+ggplot(df) +
+  geom_line(aes(time, FLOW.x, col = 'ler_outflow')) +
+  geom_line(aes(time, FLOW.y, col = 'ladwig2021_outflow')) 
+
+
+outflow_df <- outflow_1 %>%
+  mutate(year = year(time)) %>%
+  filter(year >= 1995 & year <= 2010) %>%
+  select(time, FLOW)
+```
+
+## (2) check if inflows are the same as in Ladwig et al. (2021)
+
+```{r inflows, echo=T}
+inflow_combined <- data.frame('Time' = inflow_1$time, 'FLOW' = inflow_1$FLOW + inflow_2$FLOW,
+                              'TEMP' = (inflow_1$TEMP * (inflow_1$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW)) + (inflow_2$TEMP * (inflow_2$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW)),
+                              'PHS_frp' = (inflow_1$PHS_frp * (inflow_1$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW))  + (inflow_2$PHS_frp *  (inflow_2$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW)),
+                              'NIT_amm' = (inflow_1$NIT_amm *  (inflow_1$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW)) + (inflow_2$TEMP *  (inflow_2$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW)),
+                              'NIT_nit' = (inflow_1$NIT_nit *  (inflow_1$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW)) + (inflow_2$NIT_nit *  (inflow_2$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW)),
+                              'OGM_docr' = (inflow_1$OGM_docr *  (inflow_1$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW)) + (inflow_2$OGM_docr *  (inflow_2$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW)))
+
+df_1 = inflow_combined %>% mutate(Time = as.Date(Time))
+df_2 = inflow %>% mutate(Time = as.Date(Time))
+
+str(df_1)
+str(df_2)
+
+df = merge(df_1, df_2, by = 'Time')
+
+df$FLOW.x == df$FLOW.y
+
+ggplot(df) +
+  geom_line(aes(Time, FLOW.x, col = 'ler_inflow')) +
+  geom_line(aes(Time, FLOW.y, col = 'ladwig2021_inflow')) 
+
+ggplot(df) +
+  geom_line(aes(Time, TEMP.x, col = 'ler_temp')) +
+  geom_line(aes(Time, TEMP.y, col = 'ladwig2021_temp')) 
+
+inflow_df <- inflow_combined %>%
+  mutate(year = year(Time)) %>%
+  filter(year >= 1995 & year <= 2010) %>%
+  select(-year)
+```
+
+
+## (3) check meteorological data
+
+```{r meteorology, echo=T}
+meteorology_df <- meteorology %>%
+  mutate(year = year(Date)) %>%
+  filter(year >= 1995 & year <= 2010) %>%
+  mutate(Rain = ifelse(AirTemp <= 0, 0, Rain * 1000),
+         Snow = ifelse(AirTemp <= 0, Rain * 1000, 0),
+         Surface_Level_Barometric_Pressure_pascal = 100000) %>%
+  rename(datetime = Date,
+         Shortwave_Radiation_Downwelling_wattPerMeterSquared = ShortWave,
+         Longwave_Radiation_Downwelling_wattPerMeterSquared = LongWave,
+         Air_Temperature_celsius = AirTemp, 
+         Relative_Humidity_percent = RelHum, 
+         Ten_Meter_Elevation_Wind_Speed_meterPerSecond = WindSpeed,
+         Precipitation_millimeterPerDay = Rain,
+         Snowfall_millimeterPerDay = Snow) %>%
+    select(datetime, Shortwave_Radiation_Downwelling_wattPerMeterSquared, Longwave_Radiation_Downwelling_wattPerMeterSquared,
+           Air_Temperature_celsius, Relative_Humidity_percent, Ten_Meter_Elevation_Wind_Speed_meterPerSecond,
+           Precipitation_millimeterPerDay, Snowfall_millimeterPerDay, Surface_Level_Barometric_Pressure_pascal)
+```
+
+## (4) save all files
+```{r save, echo=T}
+# write.csv(x = outflow_df, file = '../boundaryconditions/outflow.csv', quote = F, row.names = F)
+# write.csv(x = inflow_df, file = '../boundaryconditions/inflow.csv', quote = F, row.names = F)
+# write.csv(x = meteorology_df, file = '../boundaryconditions/meteorology.csv', quote = F, row.names = F)
+```

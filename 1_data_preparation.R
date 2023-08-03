@@ -75,13 +75,17 @@ inflow_df <- inflow_combined %>%
   filter(year >= 1995 & year <= 2010) %>%
   select(-year)
 
+ggplot() +
+  geom_line(data = inflow_df, aes(as.Date(Time), FLOW, col = 'inflow')) +
+  geom_line(data = outflow_df, aes(as.Date(time), FLOW, col = 'outflow'))
+
 # (3) check meteorological data
 
 meteorology_df <- meteorology %>%
   mutate(year = year(Date)) %>%
   filter(year >= 1995 & year <= 2010) %>%
-  mutate(Rain = ifelse(AirTemp <= 0, 0, Rain * 1000),
-         Snow = ifelse(AirTemp <= 0, Rain * 1000, 0),
+  mutate(Rain_st = ifelse(AirTemp <= 0, 0,  Rain * 1000),
+         Snow_st = ifelse(AirTemp <= 0, Rain * 1000, 0),
          Surface_Level_Barometric_Pressure_pascal = 100000) %>%
   rename(datetime = Date,
          Shortwave_Radiation_Downwelling_wattPerMeterSquared = ShortWave,
@@ -89,8 +93,8 @@ meteorology_df <- meteorology %>%
          Air_Temperature_celsius = AirTemp, 
          Relative_Humidity_percent = RelHum, 
          Ten_Meter_Elevation_Wind_Speed_meterPerSecond = WindSpeed,
-         Precipitation_millimeterPerDay = Rain,
-         Snowfall_millimeterPerDay = Snow) %>%
+         Precipitation_millimeterPerDay = Rain_st,
+         Snowfall_millimeterPerDay = Snow_st) %>%
     select(datetime, Shortwave_Radiation_Downwelling_wattPerMeterSquared, Longwave_Radiation_Downwelling_wattPerMeterSquared,
            Air_Temperature_celsius, Relative_Humidity_percent, Ten_Meter_Elevation_Wind_Speed_meterPerSecond,
            Precipitation_millimeterPerDay, Snowfall_millimeterPerDay, Surface_Level_Barometric_Pressure_pascal)

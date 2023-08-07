@@ -1,12 +1,18 @@
-domain,process,subprocess,model_coupled,parameter,default,unit,value,note
-water,initial_conditions,initial_oxygen,GLM-AED2,oxy_initial,300,mmol O2 m-3,300,-
-water,initial_conditions,initial_oxygen,GLM-AED2,oxy_initial,300,mmol O2 m-3,300,-
-water,initial_conditions,initial_oxygen,GOTM-Selmaprotbas,o2,none,mmol O2 m-3,300,-
-water,water_atmosphere_exchange,piston_velocity,GOTM-Selmaprotbas,pvel,5,m d-1,5,piston velocity
-water,water_atmosphere_exchange,equation_options,GOTM-Selmaprotbas,newflux,2,(integer),2,"1: piston velocity depends on winds and saturation according to Weiss, 2: polynomial approximation"
-sediment,water_sediment_exchange,sediment_flux,GLM-AED2,Fsed_oxy,48,mmol m-2 d-1,48,Sediment-water flux for oxygen
-sediment,water_sediment_exchange,sediment_flux,GLM-AED2,Fsed_oxy,48,mmol m-2 d-1,48,Sediment-water flux for oxygen
-sediment,water_sediment_exchange,sediment_flux,GLM-AED2,Ksed_oxy,150,mmol m-3,150,half-saturation concentration of oxygen sediment flux
-sediment,water_sediment_exchange,sediment_flux,GLM-AED2,Ksed_oxy,150,mmol m-3,150,half-saturation concentration of oxygen sediment flux
-sediment,water_sediment_exchange,sediment_flux,GLM-AED2,theta_sed_oxy,1.08,-,1.08,Arrhenius temperature multiplier for sediment oxygen flux
-sediment,water_sediment_exchange,sediment_flux,GLM-AED2,theta_sed_oxy,1.08,-,1.08,Arrhenius temperature multiplier for sediment oxygen flux
+"domain","process","subprocess","model_coupled","parameter","default","unit","value","note"
+"sediment","water_sediment_exchange","diffusion","GOTM-WET","kO2Dif","0.00017","m2/d","","O2 diffusion constant at 20*C"
+"sediment","water_sediment_exchange","diffusion","GOTM-WET","cThetaDif","1.016","1/e^*C","","temperature coefficient for diffusion"
+"sediment","water_sediment_exchange","diffusion","GOTM-WET","cTurbDifO2","5","-","","bioturbation factor for oxygen diffusion"
+"sediment","water_sediment_exchange","sediment_flux","GLM-AED2","theta_sed_oxy","1.08","-","","Arrhenius temperature multiplier for sediment oxygen flux"
+"sediment","water_sediment_exchange","sediment_flux","GLM-AED2","theta_sed_oxy","1.08","-","","Arrhenius temperature multiplier for sediment oxygen flux"
+"sediment","water_sediment_exchange","sediment_flux","GLM-AED2","Fsed_oxy","48","mmol m-2 d-1","","Sediment-water flux for oxygen"
+"sediment","water_sediment_exchange","sediment_flux","GLM-AED2","Fsed_oxy","48","mmol m-2 d-1","","Sediment-water flux for oxygen"
+"sediment","water_sediment_exchange","sediment_flux","GLM-AED2","Ksed_oxy","150","mmol m-3","","half-saturation concentration of oxygen sediment flux"
+"sediment","water_sediment_exchange","sediment_flux","GLM-AED2","Ksed_oxy","150","mmol m-3","","half-saturation concentration of oxygen sediment flux"
+"water","initial_conditions","initial_oxygen","GLM-AED2","oxy_initial","300","mmol O2 m-3","","-"
+"water","initial_conditions","initial_oxygen","GLM-AED2","oxy_initial","300","mmol O2 m-3","","-"
+"water","initial_conditions","initial_oxygen","GOTM-Selmaprotbas","o2","none","mmol O2 m-3","","-"
+"water","initial_conditions","initial_oxygen","GOTM-WET","sO2W",NA,"g/m3","","oxygen"
+"water","oxygen_consumption","BOD","GOTM-WET","hO2BOD","1","mgO2/l","","half saturation oxygen conc. for BOD"
+"water","water_atmosphere_exchange","equation_options","GOTM-Selmaprotbas","newflux","2","(integer)","","1: piston velocity depends on winds and saturation according to Weiss;  2: polynomial approximation"
+"water","water_atmosphere_exchange","piston_velocity","GOTM-Selmaprotbas","pvel","5","m d-1","","piston velocity"
+"water","water_atmosphere_exchange","reaeration_parameters","GOTM-WET","cThetaAer","1.011","1/e^*C","","temperature coefficient for reaeration"

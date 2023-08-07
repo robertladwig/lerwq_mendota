@@ -1,6 +1,6 @@
-domain,process,subprocess,model_coupled,parameter,default,unit,value,note
-water,initial_conditions,initial_silicate,GOTM-Selmaprotbas,si,none,mmol Si m-3,1,initial dissolved silicate in the water column
-water,initial_conditions,initial_pom,GOTM-Selmaprotbas,dd_si,none,mmol Si m-3,1,initial detritus-Si in the water column
-sediment,initial_conditions,initial_silicate,GOTM-Selmaprotbas,fl_si,none,mmol Si m-2,1,initial silicate fluff (= active sediment)
-water,water_column_processes,sedimentation,GLM-AED2,Fsed_rsi,4,?,4,Sedimentation flux for silica
-water,water_column_processes,sedimentation,GLM-AED2,Fsed_rsi,4,?,4,Sedimentation flux for silica
+"domain","process","subprocess","model_coupled","parameter","default","unit","value","note"
+"water","initial_conditions","initial_silicate","GOTM-Selmaprotbas","si","none","mmol Si m-3","","initial dissolved silicate in the water column"
+"water","initial_conditions","initial_pom","GOTM-Selmaprotbas","dd_si","none","mmol Si m-3","","initial detritus-Si in the water column"
+"sediment","initial_conditions","initial_silicate","GOTM-Selmaprotbas","fl_si","none","mmol Si m-2","","initial silicate fluff (= active sediment)"
+"water","water_column_processes","sedimentation","GLM-AED2","Fsed_rsi","4","?","","Sedimentation flux for silica"
+"water","water_column_processes","sedimentation","GLM-AED2","Fsed_rsi","4","?","","Sedimentation flux for silica"

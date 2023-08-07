@@ -36,7 +36,7 @@
    Ksed_dic = 7
    theta_sed_dic = 1.08
    Fsed_ch4 = 60
-   Ksed_ch4 = 30
+   Ksed_ch4 = 0
    theta_sed_ch4 = 1.08
    Rch4ox = 10
    Kch4ox = 0.5

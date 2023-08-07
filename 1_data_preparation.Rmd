@@ -100,7 +100,7 @@ inflow_df <- inflow_combined %>%
 meteorology_df <- meteorology %>%
   mutate(year = year(Date)) %>%
   filter(year >= 1995 & year <= 2010) %>%
-  mutate(Rain = ifelse(AirTemp <= 0, 0, Rain * 1000),
+  mutate(Rain = ifelse(AirTemp > 0, 0, Rain * 1000),
          Snow = ifelse(AirTemp <= 0, Rain * 1000, 0),
          Surface_Level_Barometric_Pressure_pascal = 100000) %>%
   rename(datetime = Date,

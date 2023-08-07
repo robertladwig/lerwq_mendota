@@ -1,135 +1,198 @@
-domain,process,subprocess,model_coupled,parameter,default,unit,value,note
-water,initial_conditions,initial_phyto,GOTM-Selmaprotbas,c,none,mmol C m-3,1,Initial concentration of phytoplankton
-water,initial_conditions,minimum_concentration,GOTM-Selmaprotbas,c0,0,mmol C m-3,0,background concentration
-water,growth,growth_rate,GOTM-Selmaprotbas,r0,1.3,d-1,1.3,maximum growth rate at 20 degrees C
-water,growth,equation_options_growth_rate,GOTM-Selmaprotbas,tlim,0,-,0,"temperature limitation of growth (0: none (i.e. beta only), 1: flagellate-style, 2: cyanobacteria-style)"
-water,growth,equation_options_temperature_limitation,GOTM-Selmaprotbas,tll,none,-,1,"if tlim = 1; half-saturation temperature, squared (degC2). if tlim = 2; lower temperature limit (degC)"
-water,growth,temperature_limitation,GOTM-Selmaprotbas,beta,3.7,-,3.7,temperature growth correction factor
-water,growth,equation_options_light_limitation,GOTM-Selmaprotbas,llim,1,-,1,"light limitation of growth (1: Reynolds, 2: Selma)"
-water,growth,light_limitation,GOTM-Selmaprotbas,alpha_light,0.1,d-1 (W m-2)-1,0.1,llim = 1; the slope of light-dependent growth
-water,growth,light_limitation,GOTM-Selmaprotbas,imin,50,W m-2,50,llim = 2; minimal optimal light radiation
-water,respiration,respiration_rate,GOTM-Selmaprotbas,nb,0.01,d-1,0.01,excretion rate
-water,mortality,mortality_rate,GOTM-Selmaprotbas,deltao,0.02,d-1,0.02,mortality rate
-water,growth,nutrient_limitation,GOTM-Selmaprotbas,alpha,1.65625,mmol m-3,1.65625,half-saturation for nutrient uptake
-water,growth,n_limitation,GOTM-Selmaprotbas,alpha_n,{par}{group_name}/parameters/alpha,mmol N m-3,1.65625,half-saturation for nitrogen uptake
-water,growth,p_limitation,GOTM-Selmaprotbas,alpha_p,{par}{group_name}/parameters/alpha,mmol P m-3,1.65625,half-saturation for phosphorus uptake
-water,growth,si_limitation,GOTM-Selmaprotbas,alpha_si,{par}{group_name}/parameters/alpha,mmol Si m-3,1.65625,half-saturation for silica uptake
-water,growth,equation_options_n_limitation,GOTM-Selmaprotbas,nitrogen_fixation,FALSE,(boolean),FALSE,whether nitrogen fixation is used to acquire nitrogen
-water,vertical_movement,vertical_velocity,GOTM-Selmaprotbas,wz,0,m d-1,0,Vertical velocity (negative is downwards)
-water,vertical_movement,equation_options_vertical_velocity,GOTM-Selmaprotbas,buoyancy_regulation,FALSE,(boolean),FALSE,whether cells can regulate vertical movement
-water,vertical_movement,equation_options_vertical_velocity,GOTM-Selmaprotbas,buoy_temperature,FALSE,(boolean),FALSE,"whether temperature can regulate buoyancy, if buoyancy_regulation is true"
-water,vertical_movement,equation_options_vertical_velocity,GOTM-Selmaprotbas,buoy_nutrient,FALSE,(boolean),FALSE,"whether nutrient limitation can regulate buoyancy, if buoyancy_regulation is true"
-water,vertical_movement,vertical_velocity,GOTM-Selmaprotbas,par_limit1,0,W m-2,0,"below this light intensity, buoyancy-regulating plankton change vertical velocity from vert_vel1 to vert_vel2"
-water,vertical_movement,vertical_velocity,GOTM-Selmaprotbas,par_limit2,{par}{group_name}/parameters/par_limit1,W m-2,0,"below this light intensity, buoyancy-regulating plankton change vertical velocity to vert_vel3"
-water,vertical_movement,vertical_velocity,GOTM-Selmaprotbas,par_limit3,{par}{group_name}/parameters/par_limit2,W m-2,0,"below this light intensity, buoyancy-regulating plankton change vertical velocity to vert_vel4"
-water,vertical_movement,vertical_velocity,GOTM-Selmaprotbas,buoy_temp_limit,0,degC,0,"if temperature falls below this temperature, vertical velocity is set to vert_vel_temp, if buoyancy_regulation = true"
-water,vertical_movement,vertical_velocity,GOTM-Selmaprotbas,buoy_nutrient_limit,0,-,0,"if nutrient limitation falls below this value (0-1), vertical velocity is set to vert_vel_nutrient, if buoyancy_regulation = true"
-water,vertical_movement,vertical_velocity,GOTM-Selmaprotbas,vert_vel1,0,m d-1,0,"rate of vertical movement above par_limit1, if buoyancy_regulation = true"
-water,vertical_movement,vertical_velocity,GOTM-Selmaprotbas,vert_vel2,{par}{group_name}/parameters/vert_vel1,m d-1,0,"rate of vertical movement below par_limit1 and above par_limit2, if buoyancy_regulation = true"
-water,vertical_movement,vertical_velocity,GOTM-Selmaprotbas,vert_vel3,{par}{group_name}/parameters/vert_vel2,m d-1,0,"rate of vertical movement below par_limit2 and above par_limit3, if buoyancy_regulation = true"
-water,vertical_movement,vertical_velocity,GOTM-Selmaprotbas,vert_vel4,{par}{group_name}/parameters/vert_vel3,m d-1,0,"rate of vertical movement below par_limit3, if buoyancy_regulation = true"
-water,vertical_movement,vertical_velocity,GOTM-Selmaprotbas,vert_vel_temp,{par}{group_name}/parameters/vert_vel4,m d-1,0,"vertical velocity at temperatures below buoy_temp_limit, if buoyancy_regulation = true"
-water,vertical_movement,vertical_velocity,GOTM-Selmaprotbas,vert_vel_nutrient,{par}{group_name}/parameters/vert_vel4,m d-1,0,"vertical velocity at nutrient limitation below buoy_nutrient_limit, if buoyancy_regulation = true"
-water,water_sediment_exchange,settling,GOTM-Selmaprotbas,sedrate,0,m d-1,0,sedimentation rate
-water,water_sediment_exchange,resuspension,GOTM-Selmaprotbas,tau_crit,0.07,N m-2,0.07,critical shear stress
-water,light,light_attenuation,GOTM-Selmaprotbas,kc,none,m2 mmolC-1,none,specific light attenuation
-water,stoichiometry,nitrogen_ratio,GOTM-Selmaprotbas,rfn,0.150943,-,0.150943,nitrogen : carbon ratio (mol N/mol C)
-water,stoichiometry,phosphorus_ratio,GOTM-Selmaprotbas,rfr,0.009434,-,0.009434,phosphorus : carbon ratio (mol P/mol C)
-water,stoichiometry,silica_ratio,GOTM-Selmaprotbas,rfs,0,-,0,silica : carbon ratio (mol Si/mol C)
-water,initial_conditions,name,GLM-AED2,p_name,NAME,?,NAME,functional species name
-water,initial_conditions,name,GLM-AED2,p_name,NAME,?,NAME,functional species name
-water,stoichiometry,chlorophyll_ratio,GOTM-Selmaprotbas,Yc,6.25,mmol C/mg Chl a,6.25,carbon : chlorophyll a ratio
-water,initial_conditions,initial_phyto,GLM-AED2,p_initial,10,mmol C m-3,10,Initial concentration of phytoplankton
-water,initial_conditions,initial_phyto,GLM-AED2,p_initial,10,mmol C m-3,10,Initial concentration of phytoplankton
-water,initial_conditions,minimum_concentration,GLM-AED2,p0,0.03,mmol C m-3,0.03,minimum concentration of phytoplankton
-water,initial_conditions,minimum_concentration,GLM-AED2,p0,0.03,mmol C m-3,0.03,minimum concentration of phytoplankton
-water,growth,growth_rate,GLM-AED2,R_growth,3,d-1,3,Phyto max growth rate @20C
-water,growth,growth_rate,GLM-AED2,R_growth,3,d-1,3,Phyto max growth rate @20C
-water,growth,equation_options_temperature_limitation,GLM-AED2,fT_method,1,(integer),1,"1:, 2:"
-water,growth,equation_options_temperature_limitation,GLM-AED2,fT_method,1,(integer),1,"1:, 2:"
-water,growth,temperature_limitation,GLM-AED2,theta_growth,1.06,?,1.06,Arrhenius temperature multiplier for phytoplankton growth
-water,growth,temperature_limitation,GLM-AED2,theta_growth,1.06,?,1.06,Arrhenius temperature multiplier for phytoplankton growth
-water,growth,temperature_limitation,GLM-AED2,T_std,20,degC,20,standard_temperature
-water,growth,temperature_limitation,GLM-AED2,T_std,20,degC,20,standard_temperature
-water,growth,temperature_limitation,GLM-AED2,T_opt,25,degC,25,optimum_temperature
-water,growth,temperature_limitation,GLM-AED2,T_opt,25,degC,25,optimum_temperature
-water,growth,temperature_limitation,GLM-AED2,T_max,32,degC,32,maximum_temperature
-water,growth,temperature_limitation,GLM-AED2,T_max,32,degC,32,maximum_temperature
-water,growth,equation_options_light_limitation,GLM-AED2,lightModel,0,(integer),0,"1:, 2:"
-water,growth,equation_options_light_limitation,GLM-AED2,lightModel,0,(integer),0,"1:, 2:"
-water,growth,light_limitation,GLM-AED2,I_K,60,micro E m-2 s-1,60,saturation_concentration
-water,growth,light_limitation,GLM-AED2,I_K,60,micro E m-2 s-1,60,saturation_concentration
-water,growth,light_limitation,GLM-AED2,I_S,150,micro E m-2 s-1,150,saturation_intensity
-water,growth,light_limitation,GLM-AED2,I_S,150,micro E m-2 s-1,150,saturation_intensity
-water,growth,equation_options_salt_limitation,GLM-AED2,salTol,0,(integer),0,"1:, 2:"
-water,growth,equation_options_salt_limitation,GLM-AED2,salTol,0,(integer),0,"1:, 2:"
-water,growth,salt_limitation,GLM-AED2,S_bep,2,?,2,salinity_limitation
-water,growth,salt_limitation,GLM-AED2,S_bep,2,?,2,salinity_limitation
-water,growth,salt_limitation,GLM-AED2,S_maxsp,35,g kg-1,35,salinity_maximum
-water,growth,salt_limitation,GLM-AED2,S_maxsp,35,g kg-1,35,salinity_maximum
-water,growth,salt_limitation,GLM-AED2,S_opt,1,g kg-1,1,salinity_optimum
-water,growth,salt_limitation,GLM-AED2,S_opt,1,g kg-1,1,salinity_optimum
-water,growth,equation_options_n_limitation,GLM-AED2,simDINUptake,1,(integer),1,"1:, 2:"
-water,growth,equation_options_n_limitation,GLM-AED2,simDINUptake,1,(integer),1,"1:, 2:"
-water,growth,equation_options_n_limitation,GLM-AED2,simDONUptake,0,(integer),0,"1:, 2:"
-water,growth,equation_options_n_limitation,GLM-AED2,simDONUptake,0,(integer),0,"1:, 2:"
-water,growth,equation_options_n_limitation,GLM-AED2,simNFixation,0,(integer),0,"1:, 2:"
-water,growth,equation_options_n_limitation,GLM-AED2,simNFixation,0,(integer),0,"1:, 2:"
-water,growth,equation_options_n_limitation,GLM-AED2,simINDynamics,1,(integer),1,"1:, 2:"
-water,growth,equation_options_n_limitation,GLM-AED2,simINDynamics,1,(integer),1,"1:, 2:"
-water,growth,n_limitation,GLM-AED2,N_o,0,mmol N m-2,0,minimum_concentration
-water,growth,n_limitation,GLM-AED2,N_o,0,mmol N m-2,0,minimum_concentration
-water,growth,n_limitation,GLM-AED2,K_N,3.5,mmol N m-3,3.5,saturation_concentration
-water,growth,n_limitation,GLM-AED2,K_N,3.5,mmol N m-3,3.5,saturation_concentration
-water,growth,n_limitation,GLM-AED2,X_ncon,0.035,mmol N mmol C-1,0.035,constant_concentration
-water,growth,n_limitation,GLM-AED2,X_ncon,0.035,mmol N mmol C-1,0.035,constant_concentration
-water,growth,n_limitation,GLM-AED2,X_nmin,0.06,mmol N mmol C-0,0.06,minimum_concentration
-water,growth,n_limitation,GLM-AED2,X_nmin,0.06,mmol N mmol C-0,0.06,minimum_concentration
-water,growth,n_limitation,GLM-AED2,X_nmax,0.206,mmol N mmol C-1,0.206,maximum_concentration
-water,growth,n_limitation,GLM-AED2,X_nmax,0.206,mmol N mmol C-1,0.206,maximum_concentration
-water,growth,n_limitation,GLM-AED2,R_nuptake,0.068,?,0.068,maximum_uptake
-water,growth,n_limitation,GLM-AED2,R_nuptake,0.068,?,0.068,maximum_uptake
-water,growth,n_limitation,GLM-AED2,k_nfix,0.67,?,0.67,growth_rate_reduction
-water,growth,n_limitation,GLM-AED2,k_nfix,0.67,?,0.67,growth_rate_reduction
-water,growth,n_limitation,GLM-AED2,R_nfix,0.13,mmol N mmol C-1 d-1,0.13,fixation_rate
-water,growth,n_limitation,GLM-AED2,R_nfix,0.13,mmol N mmol C-1 d-1,0.13,fixation_rate
-water,growth,equation_options_p_limitation,GLM-AED2,simDIPUptake,1,(integer),1,DIP_model
-water,growth,equation_options_p_limitation,GLM-AED2,simDIPUptake,1,(integer),1,DIP_model
-water,growth,equation_options_p_limitation,GLM-AED2,simIPDynamics,2,(integer),2,IP_model
-water,growth,equation_options_p_limitation,GLM-AED2,simIPDynamics,2,(integer),2,IP_model
-water,growth,p_limitation,GLM-AED2,P_0,0,mmol P m-3,0,minimum_concentration
-water,growth,p_limitation,GLM-AED2,P_0,0,mmol P m-3,0,minimum_concentration
-water,growth,p_limitation,GLM-AED2,K_P,0.5,mmol P m-3,0.5,saturation_concentration
-water,growth,p_limitation,GLM-AED2,K_P,0.5,mmol P m-3,0.5,saturation_concentration
-water,growth,p_limitation,GLM-AED2,X_pcon,0.0015,mmol Pmmol C-1,0.0015,constant_concentration
-water,growth,p_limitation,GLM-AED2,X_pcon,0.0015,mmol Pmmol C-1,0.0015,constant_concentration
-water,growth,p_limitation,GLM-AED2,X_pmin,0.0019,mmol Pmmol C-1,0.0019,minimum_concentration
-water,growth,p_limitation,GLM-AED2,X_pmin,0.0019,mmol Pmmol C-1,0.0019,minimum_concentration
-water,growth,p_limitation,GLM-AED2,X_pmax,0.0089,mmol Pmmol C-1,0.0089,maximum_concentration
-water,growth,p_limitation,GLM-AED2,X_pmax,0.0089,mmol Pmmol C-1,0.0089,maximum_concentration
-water,growth,p_limitation,GLM-AED2,R_puptake,0.0039,mmol P m-3 d-1,0.0039,maximum_uptake
-water,growth,p_limitation,GLM-AED2,R_puptake,0.0039,mmol P m-3 d-1,0.0039,maximum_uptake
-water,growth,equation_options_si_limitation,GLM-AED2,simSiUptake,0,(integer),0,"1:, 2:"
-water,growth,equation_options_si_limitation,GLM-AED2,simSiUptake,0,(integer),0,"1:, 2:"
-water,growth,si_limitation,GLM-AED2,Si_0,0,mmol Si m-3,0,minimum_concentration
-water,growth,si_limitation,GLM-AED2,Si_0,0,mmol Si m-3,0,minimum_concentration
-water,growth,si_limitation,GLM-AED2,K_Si,0,mmol Si m-3,0,saturation_concentration
-water,growth,si_limitation,GLM-AED2,K_Si,0,mmol Si m-3,0,saturation_concentration
-water,growth,si_limitation,GLM-AED2,X_sicon,0,mmol Si mmol C-1,0,constant_concentration
-water,growth,si_limitation,GLM-AED2,X_sicon,0,mmol Si mmol C-1,0,constant_concentration
-water,light,light_attenuation,GLM-AED2,KePHY,0.005,mmol C m-3 m-1,0.005,attenuation_coefficient
-water,light,light_attenuation,GLM-AED2,KePHY,0.005,mmol C m-3 m-1,0.005,attenuation_coefficient
-water,respiration,composition,GLM-AED2,f_pr,0.005,?,0.005,fraction
-water,respiration,composition,GLM-AED2,f_pr,0.005,?,0.005,fraction
-water,respiration,respiration_rate,GLM-AED2,R_resp,0.085,?,0.085,respiration_rate
-water,respiration,respiration_rate,GLM-AED2,R_resp,0.085,?,0.085,respiration_rate
-water,respiration,respiration_rate,GLM-AED2,theta_resp,1.12,?,1.12,Arrhenius temperature multiplier for phytoplankton respiration
-water,respiration,respiration_rate,GLM-AED2,theta_resp,1.12,?,1.12,Arrhenius temperature multiplier for phytoplankton respiration
-water,respiration,composition,GLM-AED2,k_fres,0.25,?,0.25,fraction_trueRespiration
-water,respiration,composition,GLM-AED2,k_fres,0.25,?,0.25,fraction_trueRespiration
-water,respiration,composition,GLM-AED2,k_fdom,0.2,?,0.2,fraction_DOM
-water,respiration,composition,GLM-AED2,k_fdom,0.2,?,0.2,fraction_DOM
-water,vertical_movement,vertical_velocity,GLM-AED2,w_p,0,m d-1,0,Sedimentation rate (negative is downwards)
-water,vertical_movement,vertical_velocity,GLM-AED2,w_p,0,m d-1,0,Sedimentation rate (negative is downwards)
-water,stoichiometry,chlorophyll_ratio,GLM-AED2,Xcc,50,mg C mg Chla-1,50,carbon : chlorophyll a ratio
-water,stoichiometry,chlorophyll_ratio,GLM-AED2,Xcc,50,mg C mg Chla-1,50,carbon : chlorophyll a ratio
+"domain","process","subprocess","model_coupled","parameter","default","unit","value","note"
+"water","initial_conditions","initial_phyto","GOTM-Selmaprotbas","c","none","mmol C m-3","","Initial concentration of phytoplankton"
+"water","initial_conditions","minimum_concentration","GOTM-Selmaprotbas","c0","0","mmol C m-3","","background concentration"
+"water","growth","growth_rate","GOTM-Selmaprotbas","r0","1.3","d-1","","maximum growth rate at 20 degrees C"
+"water","growth","equation_options_growth_rate","GOTM-Selmaprotbas","tlim","0","-","","temperature limitation of growth (0: none (i.e. beta only), 1: flagellate-style, 2: cyanobacteria-style)"
+"water","growth","equation_options_temperature_limitation","GOTM-Selmaprotbas","tll","none","-","","if tlim = 1; half-saturation temperature, squared (degC2). if tlim = 2; lower temperature limit (degC)"
+"water","growth","temperature_limitation","GOTM-Selmaprotbas","beta","3.7","-","","temperature growth correction factor"
+"water","growth","equation_options_light_limitation","GOTM-Selmaprotbas","llim","1","-","","light limitation of growth (1: Reynolds, 2: Selma)"
+"water","growth","light_limitation","GOTM-Selmaprotbas","alpha_light","0.1","d-1 (W m-2)-1","","llim = 1; the slope of light-dependent growth"
+"water","growth","light_limitation","GOTM-Selmaprotbas","imin","50","W m-2","","llim = 2; minimal optimal light radiation"
+"water","respiration","respiration_rate","GOTM-Selmaprotbas","nb","0.01","d-1","","excretion rate"
+"water","mortality","mortality_rate","GOTM-Selmaprotbas","deltao","0.02","d-1","","mortality rate"
+"water","growth","nutrient_limitation","GOTM-Selmaprotbas","alpha","1.65625","mmol m-3","","half-saturation for nutrient uptake"
+"water","growth","n_limitation","GOTM-Selmaprotbas","alpha_n","{par}{group_name}/parameters/alpha","mmol N m-3","","half-saturation for nitrogen uptake"
+"water","growth","p_limitation","GOTM-Selmaprotbas","alpha_p","{par}{group_name}/parameters/alpha","mmol P m-3","","half-saturation for phosphorus uptake"
+"water","growth","si_limitation","GOTM-Selmaprotbas","alpha_si","{par}{group_name}/parameters/alpha","mmol Si m-3","","half-saturation for silica uptake"
+"sediment","initial_conditions","initial_phyto","GOTM-WET","sDS",NA,"gDW/m2","","sediment DW"
+"sediment","initial_conditions","initial_phyto","GOTM-WET","sNS",NA,"gN/m2","","sediment N"
+"sediment","initial_conditions","initial_phyto","GOTM-WET","sPS",NA,"gP/m2","","sediment P"
+"sediment","initial_conditions","minimum_concentration","GOTM-WET","cDMinS","1.00E-05","gDW/m3","","minimum DW concentration in sediment"
+"sediment","mortality","excretion","GOTM-WET","fDOMS","0","-","","DOM fraction of settled dead cells"
+"sediment","mortality","mortality_rate","GOTM-WET","kMortS","0.2","1/d","","mortality rate of settled phytoplankton"
+"sediment","water_sediment_exchange","resuspension","GOTM-WET","kResusMax","0.25","1/d","","maximum phytoplankton resuspension rate"
+"sediment","water_sediment_exchange","resuspension","GOTM-WET","cResusExp","-0.379","gDW/m2/d)","","exponent parameter for phytoplankton resuspension (1"
+"water","growth","equation_options_growth_rate","GOTM-Selmaprotbas","tlim","0","-","","temperature limitation of growth (0: none (i.e. beta only);  1: flagellate-style;  2: cyanobacteria-style)"
+"water","growth","equation_options_light_limitation","GLM-AED2","lightModel","0","(integer)","","1: ; 2:"
+"water","growth","equation_options_light_limitation","GLM-AED2","lightModel","0","(integer)","","1: ; 2:"
+"water","growth","equation_options_light_limitation","GOTM-Selmaprotbas","llim","1","-","","light limitation of growth (1: Reynolds;  2: Selma)"
+"water","growth","equation_options_light_limitation","GOTM-WET","qLightMethod","2","-","","lightmethod 1=no photoinhibition; 2=photoinhibition"
+"water","growth","equation_options_n_fixation","GOTM-WET","fMuNFix","0.9","-","","lNfix=.true.; fraction of MuMax at max N fix."
+"water","growth","equation_options_n_limitation","GLM-AED2","simDONUptake","0","(integer)","","1: ; 2:"
+"water","growth","equation_options_n_limitation","GLM-AED2","simDONUptake","0","(integer)","","1: ; 2:"
+"water","growth","equation_options_n_limitation","GLM-AED2","simNFixation","0","(integer)","","1: ; 2:"
+"water","growth","equation_options_n_limitation","GLM-AED2","simNFixation","0","(integer)","","1: ; 2:"
+"water","growth","equation_options_n_limitation","GLM-AED2","simDINUptake","1","(integer)","","1: ; 2:"
+"water","growth","equation_options_n_limitation","GLM-AED2","simDINUptake","1","(integer)","","1: ; 2:"
+"water","growth","equation_options_n_limitation","GLM-AED2","simINDynamics","1","(integer)","","1: ; 2:"
+"water","growth","equation_options_n_limitation","GLM-AED2","simINDynamics","1","(integer)","","1: ; 2:"
+"water","growth","equation_options_n_limitation","GOTM-Selmaprotbas","nitrogen_fixation","FALSE","(boolean)","","whether nitrogen fixation is used to acquire nitrogen"
+"water","growth","equation_options_p_limitation","GLM-AED2","simDIPUptake","1","(integer)","","DIP_model"
+"water","growth","equation_options_p_limitation","GLM-AED2","simDIPUptake","1","(integer)","","DIP_model"
+"water","growth","equation_options_p_limitation","GLM-AED2","simIPDynamics","2","(integer)","","IP_model"
+"water","growth","equation_options_p_limitation","GLM-AED2","simIPDynamics","2","(integer)","","IP_model"
+"water","growth","equation_options_salt_limitation","GLM-AED2","salTol","0","(integer)","","1: ; 2:"
+"water","growth","equation_options_salt_limitation","GLM-AED2","salTol","0","(integer)","","1: ; 2:"
+"water","growth","equation_options_si_limitation","GLM-AED2","simSiUptake","0","(integer)","","1: ; 2:"
+"water","growth","equation_options_si_limitation","GLM-AED2","simSiUptake","0","(integer)","","1: ; 2:"
+"water","growth","equation_options_temperature_limitation","GLM-AED2","fT_method","1","(integer)","","1: ; 2:"
+"water","growth","equation_options_temperature_limitation","GLM-AED2","fT_method","1","(integer)","","1: ; 2:"
+"water","growth","equation_options_temperature_limitation","GOTM-Selmaprotbas","tll","none","-","","if tlim = 1; half-saturation temperature;  squared (degC2). if tlim = 2; lower temperature limit (degC)"
+"water","growth","growth_rate","GOTM-Selmaprotbas","r0","1.3","d-1","","maximum growth rate at 20 degrees C"
+"water","growth","growth_rate","GLM-AED2","R_growth","3","d-1","","Phyto max growth rate @20C"
+"water","growth","growth_rate","GLM-AED2","R_growth","3","d-1","","Phyto max growth rate @20C"
+"water","growth","growth_rate","GOTM-WET","cMuMax","1.4","1/d","","maximum growth rate at 20*C"
+"water","growth","light_limitation","GOTM-Selmaprotbas","alpha_light","0.1","d-1 (W m-2)-1","","llim = 1; the slope of light-dependent growth"
+"water","growth","light_limitation","GOTM-Selmaprotbas","imin","50","W m-2","","llim = 2; minimal optimal light radiation"
+"water","growth","light_limitation","GLM-AED2","I_K","60","micro E m-2 s-1","","saturation_concentration"
+"water","growth","light_limitation","GLM-AED2","I_K","60","micro E m-2 s-1","","saturation_concentration"
+"water","growth","light_limitation","GLM-AED2","I_S","150","micro E m-2 s-1","","saturation_intensity"
+"water","growth","light_limitation","GLM-AED2","I_S","150","micro E m-2 s-1","","saturation_intensity"
+"water","growth","light_limitation","GOTM-WET","hLRef","17","W/m2","","qLightMethod=1; half-sat. PAR at 20*C; Lehmann function"
+"water","growth","light_limitation","GOTM-WET","cLOptRef","25","W/m2","","qLightMethod=2; optimum PAR at 20*C; Steele function"
+"water","growth","n_limitation","GLM-AED2","N_o","0","mmol N m-2","","minimum_concentration"
+"water","growth","n_limitation","GLM-AED2","N_o","0","mmol N m-2","","minimum_concentration"
+"water","growth","n_limitation","GLM-AED2","X_ncon","0.035","mmol N mmol C-1","","constant_concentration"
+"water","growth","n_limitation","GLM-AED2","X_ncon","0.035","mmol N mmol C-1","","constant_concentration"
+"water","growth","n_limitation","GLM-AED2","X_nmin","0.06","mmol N mmol C-0","","minimum_concentration"
+"water","growth","n_limitation","GLM-AED2","X_nmin","0.06","mmol N mmol C-0","","minimum_concentration"
+"water","growth","n_limitation","GLM-AED2","R_nuptake","0.068","?","","maximum_uptake"
+"water","growth","n_limitation","GLM-AED2","R_nuptake","0.068","?","","maximum_uptake"
+"water","growth","n_limitation","GLM-AED2","R_nfix","0.13","mmol N mmol C-1 d-1","","fixation_rate"
+"water","growth","n_limitation","GLM-AED2","R_nfix","0.13","mmol N mmol C-1 d-1","","fixation_rate"
+"water","growth","n_limitation","GLM-AED2","X_nmax","0.206","mmol N mmol C-1","","maximum_concentration"
+"water","growth","n_limitation","GLM-AED2","X_nmax","0.206","mmol N mmol C-1","","maximum_concentration"
+"water","growth","n_limitation","GLM-AED2","k_nfix","0.67","?","","growth_rate_reduction"
+"water","growth","n_limitation","GLM-AED2","k_nfix","0.67","?","","growth_rate_reduction"
+"water","growth","n_limitation","GLM-AED2","K_N","3.5","mmol N m-3","","saturation_concentration"
+"water","growth","n_limitation","GLM-AED2","K_N","3.5","mmol N m-3","","saturation_concentration"
+"water","growth","n_limitation","GOTM-Selmaprotbas","alpha_n","{par}{group_name}/parameters/alph","mmol N m-3","","half-saturation for nitrogen uptake"
+"water","growth","nutrient_limitation","GOTM-Selmaprotbas","alpha","1.65625","mmol m-3","","half-saturation for nutrient uptake"
+"water","growth","oxygen_correction","GOTM-WET","hO2BOD","1","mgO2/l","","half-saturation constant for oxygen conc. on BOD"
+"water","growth","p_limitation","GLM-AED2","P_0","0","mmol P m-3","","minimum_concentration"
+"water","growth","p_limitation","GLM-AED2","P_0","0","mmol P m-3","","minimum_concentration"
+"water","growth","p_limitation","GLM-AED2","X_pcon","0.0015","mmol Pmmol C-1","","constant_concentration"
+"water","growth","p_limitation","GLM-AED2","X_pcon","0.0015","mmol Pmmol C-1","","constant_concentration"
+"water","growth","p_limitation","GLM-AED2","X_pmin","0.0019","mmol Pmmol C-1","","minimum_concentration"
+"water","growth","p_limitation","GLM-AED2","X_pmin","0.0019","mmol Pmmol C-1","","minimum_concentration"
+"water","growth","p_limitation","GLM-AED2","R_puptake","0.0039","mmol P m-3 d-1","","maximum_uptake"
+"water","growth","p_limitation","GLM-AED2","R_puptake","0.0039","mmol P m-3 d-1","","maximum_uptake"
+"water","growth","p_limitation","GLM-AED2","X_pmax","0.0089","mmol Pmmol C-1","","maximum_concentration"
+"water","growth","p_limitation","GLM-AED2","X_pmax","0.0089","mmol Pmmol C-1","","maximum_concentration"
+"water","growth","p_limitation","GLM-AED2","K_P","0.5","mmol P m-3","","saturation_concentration"
+"water","growth","p_limitation","GLM-AED2","K_P","0.5","mmol P m-3","","saturation_concentration"
+"water","growth","p_limitation","GOTM-Selmaprotbas","alpha_p","{par}{group_name}/parameters/alpha","mmol P m-3","","half-saturation for phosphorus uptake"
+"water","growth","salt_limitation","GLM-AED2","S_opt","1","g kg-1","","salinity_optimum"
+"water","growth","salt_limitation","GLM-AED2","S_opt","1","g kg-1","","salinity_optimum"
+"water","growth","salt_limitation","GLM-AED2","S_bep","2","?","","salinity_limitation"
+"water","growth","salt_limitation","GLM-AED2","S_bep","2","?","","salinity_limitation"
+"water","growth","salt_limitation","GLM-AED2","S_maxsp","35","g kg-1","","salinity_maximum"
+"water","growth","salt_limitation","GLM-AED2","S_maxsp","35","g kg-1","","salinity_maximum"
+"water","growth","si_limitation","GLM-AED2","K_Si","0","mmol Si m-3","","saturation_concentration"
+"water","growth","si_limitation","GLM-AED2","K_Si","0","mmol Si m-3","","saturation_concentration"
+"water","growth","si_limitation","GLM-AED2","Si_0","0","mmol Si m-3","","minimum_concentration"
+"water","growth","si_limitation","GLM-AED2","Si_0","0","mmol Si m-3","","minimum_concentration"
+"water","growth","si_limitation","GLM-AED2","X_sicon","0","mmol Si mmol C-1","","constant_concentration"
+"water","growth","si_limitation","GLM-AED2","X_sicon","0","mmol Si mmol C-1","","constant_concentration"
+"water","growth","si_limitation","GOTM-WET","hSiAss","0.09","mgSi/l","","half-saturation constant for Si; only for lSi=.true."
+"water","growth","si_limitation","GOTM-WET","lSi","false","-","","toggle Si usage"
+"water","growth","si_limitation","GOTM-Selmaprotbas","alpha_si","{par}{group_name}/parameters/alpha","mmol Si m-3","","half-saturation for silica uptake"
+"water","growth","temperature_limitation","GLM-AED2","theta_growth","1.06","?","","Arrhenius temperature multiplier for phytoplankton growth"
+"water","growth","temperature_limitation","GLM-AED2","theta_growth","1.06","?","","Arrhenius temperature multiplier for phytoplankton growth"
+"water","growth","temperature_limitation","GOTM-Selmaprotbas","beta","3.7","-","","temperature growth correction factor"
+"water","growth","temperature_limitation","GLM-AED2","T_std","20","degC","","standard_temperature"
+"water","growth","temperature_limitation","GLM-AED2","T_std","20","degC","","standard_temperature"
+"water","growth","temperature_limitation","GLM-AED2","T_opt","25","degC","","optimum_temperature"
+"water","growth","temperature_limitation","GLM-AED2","T_opt","25","degC","","optimum_temperature"
+"water","growth","temperature_limitation","GLM-AED2","T_max","32","degC","","maximum_temperature"
+"water","growth","temperature_limitation","GLM-AED2","T_max","32","degC","","maximum_temperature"
+"water","growth","temperature_limitation","GOTM-WET","cSigTm","11.6","*C","","growth rate temperature constant; sigma in Gaussian curve"
+"water","growth","temperature_limitation","GOTM-WET","cTmOpt","25","*C","","optimum temperature of growth rate"
+"water","initial_conditions","initial_phyto","GLM-AED2","p_initial","10","mmol C m-3","","Initial concentration of phytoplankton"
+"water","initial_conditions","initial_phyto","GLM-AED2","p_initial","10","mmol C m-3","","Initial concentration of phytoplankton"
+"water","initial_conditions","initial_phyto","GOTM-Selmaprotbas","c","none","mmol C m-3","","Initial concentration of phytoplankton"
+"water","initial_conditions","initial_phyto","GOTM-WET","sDW",NA,"gDW/m3","","water column DW"
+"water","initial_conditions","initial_phyto","GOTM-WET","sNW",NA,"gN/m3","","water column N"
+"water","initial_conditions","initial_phyto","GOTM-WET","sPW",NA,"gP/m3","","water column P"
+"water","initial_conditions","minimum_concentration","GOTM-Selmaprotbas","c0","0","mmol C m-3","","background concentration"
+"water","initial_conditions","minimum_concentration","GLM-AED2","p0","0.03","mmol C m-3","","minimum concentration of phytoplankton"
+"water","initial_conditions","minimum_concentration","GLM-AED2","p0","0.03","mmol C m-3","","minimum concentration of phytoplankton"
+"water","initial_conditions","minimum_concentration","GOTM-WET","cDMinW","1.00E-05","gDW/m3","","minimum DW concentration in water"
+"water","initial_conditions","name","GLM-AED2","p_name","NAME","?","","functional species name"
+"water","initial_conditions","name","GLM-AED2","p_name","NAME","?","","functional species name"
+"water","light","light_attenuation","GLM-AED2","KePHY","0.005","mmol C m-3 m-1","","attenuation_coefficient"
+"water","light","light_attenuation","GLM-AED2","KePHY","0.005","mmol C m-3 m-1","","attenuation_coefficient"
+"water","light","light_attenuation","GOTM-WET","cExtSp","0.35","m2/gDW","","specific extinction coefficient"
+"water","light","light_attenuation","GOTM-Selmaprotbas","kc","none","m2 mmolC-1","","specific light attenuation"
+"water","mortality","excretion","GOTM-WET","fDOMW","0","-","","DOM fraction of dead cells"
+"water","mortality","excretion","GOTM-WET","fDissMort","0.2","-","","soluble inorganic nutrient fraction of dead cells"
+"water","mortality","mortality_rate","GOTM-Selmaprotbas","deltao","0.02","d-1","","mortality rate"
+"water","mortality","mortality_rate","GOTM-WET","kMortW","0.01","1/d","","mortality constant in water"
+"water","respiration","composition","GLM-AED2","f_pr","0.005","?","","fraction"
+"water","respiration","composition","GLM-AED2","f_pr","0.005","?","","fraction"
+"water","respiration","composition","GLM-AED2","k_fdom","0.2","?","","fraction_DOM"
+"water","respiration","composition","GLM-AED2","k_fdom","0.2","?","","fraction_DOM"
+"water","respiration","composition","GLM-AED2","k_fres","0.25","?","","fraction_trueRespiration"
+"water","respiration","composition","GLM-AED2","k_fres","0.25","?","","fraction_trueRespiration"
+"water","respiration","respiration_rate","GOTM-Selmaprotbas","nb","0.01","d-1","","excretion rate"
+"water","respiration","respiration_rate","GLM-AED2","R_resp","0.085","?","","respiration_rate"
+"water","respiration","respiration_rate","GLM-AED2","R_resp","0.085","?","","respiration_rate"
+"water","respiration","respiration_rate","GLM-AED2","theta_resp","1.12","?","","Arrhenius temperature multiplier for phytoplankton respiration"
+"water","respiration","respiration_rate","GLM-AED2","theta_resp","1.12","?","","Arrhenius temperature multiplier for phytoplankton respiration"
+"water","respiration","respiration_rate","GOTM-WET","kDResp","0.03","1/d","","maintenance respiration constant at 20*C"
+"water","stoichiometry","carbon_ratio","GOTM-WET","cCPerDW","0.4","gC/gDW","","C content of organic matter DW"
+"water","stoichiometry","chlorophyll_ratio","GOTM-Selmaprotbas","Yc","6.25","mmol C/mg Chl a","","carbon : chlorophyll a ratio"
+"water","stoichiometry","chlorophyll_ratio","GLM-AED2","Xcc","50","mg C mg Chla-1","","carbon : chlorophyll a ratio"
+"water","stoichiometry","chlorophyll_ratio","GLM-AED2","Xcc","50","mg C mg Chla-1","","carbon : chlorophyll a ratio"
+"water","stoichiometry","chlorophyll_ratio","GOTM-WET","cChDMin","0.005","mgChl/mgDW","","minimum chlorophyll/C ratio"
+"water","stoichiometry","chlorophyll_ratio","GOTM-WET","cChDMax","0.015","mgChl/mgDW","","maximum chlorophyll/C ratio"
+"water","stoichiometry","equation_options_n_fixation","GOTM-WET","cNFixMax","0.01","mgN/mgDW/d","","lNfix=.true.; maximum N fixation rate"
+"water","stoichiometry","equation_options_n_fixation","GOTM-WET","lNfix","false","-","","toggle nitrogen fixation"
+"water","stoichiometry","nitrogen_ratio","GOTM-Selmaprotbas","rfn","0.150943","-","","nitrogen : carbon ratio (mol N/mol C)"
+"water","stoichiometry","nitrogen_ratio","GOTM-WET","cNDMin","0.018","mgN/mgDW","","minimum N/DW ratio"
+"water","stoichiometry","nitrogen_ratio","GOTM-WET","cNDMax","0.15","mgN/mgDW","","maximum N/DW ratio"
+"water","stoichiometry","phosphorus_ratio","GOTM-Selmaprotbas","rfr","0.009434","-","","phosphorus : carbon ratio (mol P/mol C)"
+"water","stoichiometry","phosphorus_ratio","GOTM-WET","cPDMin","0.003","mgP/mgDW","","minimum P/DW ratio"
+"water","stoichiometry","phosphorus_ratio","GOTM-WET","cPDMax","0.025","mgP/mgDW","","maximum P/DW ratio"
+"water","stoichiometry","silica_ratio","GOTM-Selmaprotbas","rfs","0","-","","silica : carbon ratio (mol Si/mol C)"
+"water","stoichiometry","silica_ratio","GOTM-WET","cSiD","0.15","mgSi/mgDW","","lSi=.true.; Si/DW ratio"
+"water","stoichiometry","uptake_n","GOTM-WET","cVNUptMax","0.08","mgN/mgDW/d","","N uptake capacity at 20*C"
+"water","stoichiometry","uptake_n","GOTM-WET","cAffNUpt","0.2","l/mgDW/d","","N uptake affinity"
+"water","stoichiometry","uptake_p","GOTM-WET","cVPUptMax","0.04","mgP/mgDW/d","","P uptake capacity at 20*C"
+"water","stoichiometry","uptake_p","GOTM-WET","cAffPUpt","0.8","l/mgDW/d","","P uptake affinity"
+"water","vertical_movement","equation_options_vertical_movement","GOTM-WET","qTrans","0","-","","Taxis method (1=const.; 2=Nut. taxis; 3=Light taxis; 4=N&L)"
+"water","vertical_movement","equation_options_vertical_movement","GOTM-WET","fLVMmin","0.025","W/m2","","qTrans > 2; minimum detectable PAR level"
+"water","vertical_movement","equation_options_vertical_movement","GOTM-WET","fNutLimVMdown","0.675","-","","qTrans > 3 or 4; threshold nut. limitation for downwards taxis"
+"water","vertical_movement","equation_options_vertical_movement","GOTM-WET","fNutLimVMup","0.75","-","","qTrans > 2 or 4; threshold nut. limitation for upwards taxis"
+"water","vertical_movement","equation_options_vertical_velocity","GOTM-Selmaprotbas","buoy_nutrient","FALSE","(boolean)","","whether nutrient limitation can regulate buoyancy;  if buoyancy_regulation is true"
+"water","vertical_movement","equation_options_vertical_velocity","GOTM-Selmaprotbas","buoy_temperature","FALSE","(boolean)","","whether temperature can regulate buoyancy;  if buoyancy_regulation is true"
+"water","vertical_movement","equation_options_vertical_velocity","GOTM-Selmaprotbas","buoyancy_regulation","FALSE","(boolean)","","whether cells can regulate vertical movement"
+"water","vertical_movement","sedimentation_velocity","GOTM-WET","cVSed","0.2","m/d","","sedimentation velocity"
+"water","vertical_movement","settling","GOTM-WET","cVSet","0.05","qTrans = 1; settling rat","",NA
+"water","vertical_movement","vertical_velocity","GLM-AED2","w_p","0","m d-1","","Sedimentation rate (negative is downwards)"
+"water","vertical_movement","vertical_velocity","GLM-AED2","w_p","0","m d-1","","Sedimentation rate (negative is downwards)"
+"water","vertical_movement","vertical_velocity","GOTM-Selmaprotbas","buoy_nutrient_limit","0","-","","if nutrient limitation falls below this value (0-1);  vertical velocity is set to vert_vel_nutrient;  if buoyancy_regulation = true"
+"water","vertical_movement","vertical_velocity","GOTM-Selmaprotbas","buoy_temp_limit","0","degC","","if temperature falls below this temperature;  vertical velocity is set to vert_vel_temp;  if buoyancy_regulation = true"
+"water","vertical_movement","vertical_velocity","GOTM-Selmaprotbas","par_limit1","0","W m-2","","below this light intensity;  buoyancy-regulating plankton change vertical velocity from vert_vel1 to vert_vel2"
+"water","vertical_movement","vertical_velocity","GOTM-Selmaprotbas","vert_vel1","0","m d-1","","rate of vertical movement above par_limit1;  if buoyancy_regulation = true"
+"water","vertical_movement","vertical_velocity","GOTM-Selmaprotbas","wz","0","m d-1","","Vertical velocity (negative is downwards)"
+"water","vertical_movement","vertical_velocity","GOTM-WET","cVSwim","10","m/d","","qTrans > 1; vertical swimming speed"
+"water","vertical_movement","vertical_velocity","GOTM-Selmaprotbas","par_limit2","{par}{group_name}/parameters/par_limit1","W m-2","","below this light intensity;  buoyancy-regulating plankton change vertical velocity to vert_vel3"
+"water","vertical_movement","vertical_velocity","GOTM-Selmaprotbas","par_limit3","{par}{group_name}/parameters/par_limit2","W m-2","","below this light intensity;  buoyancy-regulating plankton change vertical velocity to vert_vel4"
+"water","vertical_movement","vertical_velocity","GOTM-Selmaprotbas","vert_vel2","{par}{group_name}/parameters/vert_vel1","m d-1","","rate of vertical movement below par_limit1 and above par_limit2;  if buoyancy_regulation = true"
+"water","vertical_movement","vertical_velocity","GOTM-Selmaprotbas","vert_vel3","{par}{group_name}/parameters/vert_vel2","m d-1","","rate of vertical movement below par_limit2 and above par_limit3;  if buoyancy_regulation = true"
+"water","vertical_movement","vertical_velocity","GOTM-Selmaprotbas","vert_vel4","{par}{group_name}/parameters/vert_vel3","m d-1","","rate of vertical movement below par_limit3;  if buoyancy_regulation = true"
+"water","vertical_movement","vertical_velocity","GOTM-Selmaprotbas","vert_vel_nutrient","{par}{group_name}/parameters/vert_vel4","m d-1","","vertical velocity at nutrient limitation below buoy_nutrient_limit;  if buoyancy_regulation = true"
+"water","vertical_movement","vertical_velocity","GOTM-Selmaprotbas","vert_vel_temp","{par}{group_name}/parameters/vert_vel4","m d-1","","vertical velocity at temperatures below buoy_temp_limit;  if buoyancy_regulation = true"
+"water","water_sediment_exchange","resuspension","GOTM-Selmaprotbas","tau_crit","0.07","N m-2","","critical shear stress"
+"water","water_sediment_exchange","settling","GOTM-Selmaprotbas","sedrate","0","m d-1","","sedimentation rate"

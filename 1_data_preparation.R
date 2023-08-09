@@ -48,8 +48,12 @@ outflow_df <- outflow_1 %>%
 inflow_combined <- data.frame('Time' = inflow_1$time, 'FLOW' = inflow_1$FLOW + inflow_2$FLOW,
                               'TEMP' = (inflow_1$TEMP * (inflow_1$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW)) + (inflow_2$TEMP * (inflow_2$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW)),
                               'PHS_frp' = (inflow_1$PHS_frp * (inflow_1$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW))  + (inflow_2$PHS_frp *  (inflow_2$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW)),
+                              'PHS_frp_ads' = (inflow_1$PHS_frp_ads * (inflow_1$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW))  + (inflow_2$PHS_frp_ads *  (inflow_2$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW)),
+                              'OGM_dop' = (inflow_1$OGM_dop * (inflow_1$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW))  + (inflow_2$OGM_dop *  (inflow_2$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW)),
+                              'OGM_pop' = (inflow_1$OGM_pop * (inflow_1$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW))  + (inflow_2$OGM_pop *  (inflow_2$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW)),
                               'NIT_amm' = (inflow_1$NIT_amm *  (inflow_1$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW)) + (inflow_2$TEMP *  (inflow_2$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW)),
                               'NIT_nit' = (inflow_1$NIT_nit *  (inflow_1$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW)) + (inflow_2$NIT_nit *  (inflow_2$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW)),
+                              'OGM_don' = (inflow_1$OGM_don * (inflow_1$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW))  + (inflow_2$OGM_don *  (inflow_2$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW)),
                               'OGM_docr' = (inflow_1$OGM_docr *  (inflow_1$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW)) + (inflow_2$OGM_docr *  (inflow_2$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW)))
 
 df_1 = inflow_combined %>% mutate(Time = as.Date(Time))

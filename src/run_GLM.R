@@ -183,6 +183,40 @@ glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'PHY_TCHLA'
 glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'OXY_oxy', reference = 'surface')
 
 # work on calibration algorithm
+GLM3r::run_glm('GLM-AED2/')
+glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'temp', reference = 'surface')
+
+physic <- obs_wtemp %>% mutate(datetime = as.POSIXct(paste0(sampledate,' 00:00:00'))) %>% select(-sampledate)
+df_obs <- merge(physic, df_wq %>% mutate(datetime = as.POSIXct(datetime)), by = c('datetime', 'depth'), all = T)
+df_obs <- merge(df_obs, df_chla %>% mutate(datetime = as.POSIXct(datetime)), by = c('datetime', 'depth'), all = T)
+df_obs <- merge(df_obs, df_diatoms %>% mutate(datetime = as.POSIXct(datetime)), by = c('datetime', 'depth'), all = T)
+df_obs <- merge(df_obs, df_cyano %>% mutate(datetime = as.POSIXct(datetime)), by =c('datetime', 'depth'), all = T)
+df_obs <- merge(df_obs, df_others %>% mutate(datetime = as.POSIXct(datetime)), by = c('datetime', 'depth'), all = T)
+
+str(df_obs)
+head(df_obs)
+df_obs %>% filter(datetime == '1995-08-30')
+
+df_obs_transformed = df_obs %>% 
+  mutate(temp = wtemp,
+         OXY_oxy = o2 * 1000/32, 
+         CAR_pH = ph,
+         NIT_nit = no3no2 * 1/14,
+         PHS_frp = drp * 1/31,
+         SIL_rsi = drsif * 1/28,
+         OGM_doc = doc * 1/12,
+         NIT_amm = nh4 * 1/14,
+         OGM_ton = totnuf * 1/14, # OGM_dop + OGM_pop + PHS_frp   
+         OGM_top = totpuf * 1/31,#OGM_don + OGM_pon + NIT_amm + NIT_nit
+         PHY_TCHLA = tot_chl,
+         PHY_DCHLA = chl_diatoms,
+         PHY_CCHLA = chl_cyano,
+         PHY_OCHLA = chl_others) %>%
+  select(datetime, depth, temp, OXY_oxy, CAR_pH, PHS_frp, OGM_top, NIT_nit, NIT_amm, OGM_ton, OGM_doc, SIL_rsi,
+         PHY_TCHLA, PHY_DCHLA, PHY_CCHLA, PHY_OCHLA)
+
+write.csv(x = df_obs_transformed, file = 'trainingData/MendotaData_observedGLM_checked.csv', quote = F, row.names = F)
+
 nml_file <- file.path("GLM-AED2/", 'glm3.nml')
 eg_nml <- read_nml(nml_file = file.path(nml_file))
 out_file <- file.path("GLM-AED2/", "output","output.nc")
@@ -203,7 +237,10 @@ calib_setup <- data.frame('pars' = as.character(c('wind_factor','lw_factor','coe
                           'ub' = NA,
                           'x0' = c(1,1,0.5, -150, 50, 60, 0.02, -10, 10, 78.1, 30, 0.5, 18, 3, 1, 3),
                           'type' = c('glm', 'glm', 'glm', 'aed','aed','aed','aed','aed','aed','aed','aed','aed','aed',
-                                     "phyto", 'phyto', 'phyto'))
+                                     "phyto", 'phyto', 'phyto'),
+                          'file' = c('glm3.nml', 'glm3.nml', 'glm3.nml', 'aed2.nml','aed2.nml','aed2.nml',
+                                     'aed2.nml','aed2.nml','aed2.nml','aed2.nml','aed2.nml','aed2.nml','aed2.nml',
+                                     "aed2_phyto_pars.nml", 'aed2_phyto_pars.nml', 'aed2_phyto_pars.nml'))
 calib_setup$lb = calib_setup$x0 * 0.7
 calib_setup$ub = calib_setup$x0 * 1.3
 print(calib_setup)

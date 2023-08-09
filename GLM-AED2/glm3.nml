@@ -21,7 +21,7 @@
    coef_mix_shear = 0.3
    coef_mix_turb = 0.51
    coef_mix_KH = 0.3
-   coef_mix_hyp = 0.5
+   coef_mix_hyp = 0.3479896
    deep_mixing = 2
    diff = 0
 /
@@ -39,7 +39,7 @@
 &time
    timefmt = 2
    start = '1990-01-01 00:00:00'
-   stop = '2009-12-30 00:00:00'
+   stop = '2004-12-31 23:00:00'
    dt = 3600
    num_days = 730
    timezone = 0
@@ -68,9 +68,9 @@
    cloud_mode = 4
    meteo_fl = 'meteo_file.csv'
    subdaily = .true.
-   wind_factor = 1
+   wind_factor = 1.3
    sw_factor = 1
-   lw_factor = 1
+   lw_factor = 0.9263834
    at_factor = 1
    rh_factor = 1
    rain_factor = 1
@@ -90,8 +90,8 @@
    strmbd_drag = 0.016, 0.016
    inflow_factor = 1, 1
    inflow_fl = 'inflow.csv'
-   inflow_varnum = 7
-   inflow_vars = 'Time','FLOW','TEMP','PHS_frp','NIT_amm','NIT_nit','OGM_docr'
+   inflow_varnum = 11
+   inflow_vars = 'Time','FLOW','TEMP','PHS_frp_ads','OGM_dop','OGM_pop','NIT_amm','NIT_nit','OGM_don','OGM_docr','PHS_frp'
 /
 &outflow
    num_outlet = 1

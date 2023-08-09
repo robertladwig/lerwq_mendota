@@ -52,8 +52,8 @@ calibrate_glm <- function(var = 'temp',
   eg_nml <- set_nml(eg_nml, 'stop', period$calibration$end)
   write_nml(eg_nml, file = paste0(path,glm_file,'.nml'))
 
-  glmOPT <- pureCMAES(par = parameters, fun = run_glm_optim, lower = rep(0,length(init.val)), 
-                        upper = rep(10,length(init.val)), 
+  glmOPT <- pureCMAES(par = parameters, fun = run_glm_optim, lower = rep(0,length(parameters)), 
+                        upper = rep(10,length(parameters)), 
                         sigma = 0.5, 
                         stopfitness = target.fit, 
                         stopeval = target.iter, 

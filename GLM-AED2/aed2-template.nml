@@ -83,14 +83,20 @@
    denit_product_variable = ''
 /
 &aed2_phosphorus
-   frp_initial = 3!0.06
-   Fsed_frp = 0.5
-   theta_sed_frp = 1.08
-   Ksed_frp = 200
-   Qmax = 1
-   phosphorus_reactant_variable = 'OXY_oxy'
-   Fsed_frp_variable = ''
-   po4sorption_target_variable = ''
+    frp_initial = 0.065
+    Fsed_frp = 0.4931266
+    Ksed_frp = 200! 50!148.0963
+    theta_sed_frp = 1.000719
+    phosphorus_reactant_variable = 'OXY_oxy'
+    simPO4Adsorption = .true.
+    ads_use_external_tss = .true.
+    po4sorption_target_variable = 'NCS_ss1'
+    PO4AdsorptionModel = 1
+    Kpo4p = 0.1
+    ads_use_pH = .false.
+    Kadsratio = 1
+    Qmax = 1
+    w_po4ads = -9999
 /
 &aed2_organic_matter
    poc_initial = 78!0.1

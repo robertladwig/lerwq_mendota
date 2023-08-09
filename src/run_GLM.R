@@ -63,26 +63,33 @@ LakeEnsemblR::export_config(config_file = config_file, model = model,
 #                                ler_config_file = "LakeEnsemblR.yaml")
 # 
 # # run GLM
-# GLM3r::run_glm('GLM-AED2/')
+GLM3r::run_glm('GLM-AED2/')
 # 
 # glmtools::sim_vars('GLM-AED2/output/output.nc')
 # 
-# glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'OXY_oxy', reference = 'surface')
-# glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'SIL_rsi', reference = 'surface')
-# glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'NIT_nit', reference = 'surface')
-# glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'NIT_amm', reference = 'surface')
-# glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'PHS_frp', reference = 'surface')
-# glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'CAR_dic', reference = 'surface')
-# glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'OGM_poc', reference = 'surface')
-# glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'OGM_don', reference = 'surface')
-# glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'CAR_ch4', reference = 'surface')
-# glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'PHY_diatoms', reference = 'surface')
-# glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'PHY_cyanobacteria', reference = 'surface')
-# glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'PHY_some_random_group', reference = 'surface')
-# glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'temp', reference = 'surface')
-# glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'PHY_TCHLA', reference = 'surface')
-# glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'extc_coef', reference = 'surface')
-# glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'NCS_ss1', reference = 'surface')
+glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'OXY_oxy', reference = 'surface')
+glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'NCS_ss1', reference = 'surface')
+glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'SIL_rsi', reference = 'surface')
+glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'NIT_nit', reference = 'surface')
+glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'NIT_amm', reference = 'surface')
+glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'PHS_frp', reference = 'surface')
+glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'PHS_frp_ads', reference = 'surface')
+glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'PHS_sed_frp', reference = 'surface')
+glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'OGM_Psed_pop', reference = 'surface')
+glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'CAR_dic', reference = 'surface')
+glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'OGM_poc', reference = 'surface')
+glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'OGM_don', reference = 'surface')
+glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'OGM_dop', reference = 'surface')
+glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'OGM_pop', reference = 'surface')
+glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'CAR_ch4', reference = 'surface')
+glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'PHY_IP', reference = 'surface')
+glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'PHY_diatoms', reference = 'surface')
+glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'PHY_cyanobacteria', reference = 'surface')
+glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'PHY_some_random_group', reference = 'surface')
+glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'temp', reference = 'surface')
+glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'PHY_TCHLA', reference = 'surface')
+glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'extc_coef', reference = 'surface')
+
 
 # modify files to account for warm-up and flows
 nml_file <- file.path("GLM-AED2/", 'glm3.nml')
@@ -108,7 +115,7 @@ eg_nml <- set_nml(eg_nml, 'start', "1990-01-01 00:00:00")
 
 write_nml(eg_nml, file = nml_file)
 
-file.copy(from = "boundaryconditions/inflow.csv", to = 'GLM-AED2/inflow.csv')
+file.copy(from = "boundaryconditions/inflow.csv", to = 'GLM-AED2/inflow.csv', overwrite = T)
 file.copy(from = "boundaryconditions/outflow.csv", to = 'GLM-AED2/outflow.csv')
 
 inflow = read.csv("GLM-AED2/inflow.csv")
@@ -187,6 +194,7 @@ setwd('..')
 
 GLM3r::run_glm('GLM-AED2/')
 glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'temp', reference = 'surface')
+glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'PHS_frp', reference = 'surface')
 
 physic <- obs_wtemp %>% mutate(datetime = as.POSIXct(paste0(sampledate,' 00:00:00'))) %>% select(-sampledate)
 df_obs <- merge(physic, df_wq %>% mutate(datetime = as.POSIXct(datetime)), by = c('datetime', 'depth'), all = T)

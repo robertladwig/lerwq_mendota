@@ -183,6 +183,8 @@ glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'PHY_TCHLA'
 glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'OXY_oxy', reference = 'surface')
 
 # work on calibration algorithm
+setwd('..')
+
 GLM3r::run_glm('GLM-AED2/')
 glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'temp', reference = 'surface')
 
@@ -222,20 +224,17 @@ eg_nml <- read_nml(nml_file = file.path(nml_file))
 out_file <- file.path("GLM-AED2/", "output","output.nc")
 
 var = c('temp', 'OXY_oxy' ,'NIT_nit','NIT_amm', "PHS_frp", 'SIL_rsi', "OGM_doc", 'PHY_TCHLA')         # variable to which we apply the calibration procedure
-path = "GLM-AED2/"      # simulation path/folder
-nml_file = nml_file  # path of the nml configuration file that you want to calibrate on
-glm_file = nml_file # # path of the gml configuration file
 # which parameter do you want to calibrate? a sensitivity analysis helps
 calib_setup <- data.frame('pars' = as.character(c('wind_factor','lw_factor','coef_mix_hyp',
                                                   'Fsed_oxy', 'Ksed_oxy', 'Kdom_minerl', 'Rdom_minerl',
                                                   'Fsed_nit', 'Ksed_nit', 'Knitrif', 'Fsed_amm',
                                                   'Fsed_frp',
                                                   'Fsed_rsi',
-                                                  'R_growth', 'R_growth', 'R_growth'
+                                                  'pd%R_growth', 'pd%R_growth', 'pd%R_growth'
                                                   )),
                           'lb' = NA,
                           'ub' = NA,
-                          'x0' = c(1,1,0.5, -150, 50, 60, 0.02, -10, 10, 78.1, 30, 0.5, 18, 3, 1, 3),
+                          'x0' = c(1,1,0.4, -150, 50, 60, 0.02, -10, 10, 80, 30, 0.5, 18, 4, 1, 3),
                           'type' = c('glm', 'glm', 'glm', 'aed','aed','aed','aed','aed','aed','aed','aed','aed','aed',
                                      "phyto", 'phyto', 'phyto'),
                           'file' = c('glm3.nml', 'glm3.nml', 'glm3.nml', 'aed2.nml','aed2.nml','aed2.nml',
@@ -248,7 +247,6 @@ print(calib_setup)
 glmcmd = NULL        # command to be used, default applies the GLM3r function
 # glmcmd = '/Users/robertladwig/Documents/AquaticEcoDynamics_gfort/GLM/glm'        # custom path to executable
 # Optional variables
-first.attempt = TRUE # if TRUE, deletes all local csv-files that stores the 
 #outcome of previous calibration runs
 period = list('calibration' = list('start' = get_nml_value(eg_nml, 'start'),
                                    'end' = '2004-12-31 23:00:00'),
@@ -257,14 +255,34 @@ period = list('calibration' = list('start' = get_nml_value(eg_nml, 'start'),
 # this supports a split-sample calibration (e.g. calibration and validation period)
 # the ratio value is the ratio of calibration period to validation period
 print(period)
+path = "GLM-AED2/"      # simulation path/folder
+aed_file = 'aed2.nml'
+glm_file = 'glm3.nml'
+phyto_file = 'aed2_phyto_pars.nml'
 scaling = TRUE       # scaling of the variables in a space of [0,10]; TRUE for CMA-ES
 verbose = TRUE
-method = 'CMA-ES'    # optimization method, choose either `CMA-ES` or `Nelder-Mead`
 metric = 'NRMSE'      # objective function to be minimized, here the root-mean square error
 target.fit = 0.1     # refers to a target fit of 2.0 degrees Celsius (stops when RMSE is below that)
-target.iter = 20    # refers to a maximum run of 20 calibration iterations (stops after that many runs)
-plotting = TRUE      # if TRUE, script will automatically save the contour plots
+target.iter = 10    # refers to a maximum run of 20 calibration iterations (stops after that many runs)
 output = out_file    # path of the output file
-field_file = field_data # path of the field data
-conversion.factor = 1 # conversion factor for the output, e.g. 1 for water temp.
+field_file = df_obs_transformed # path of the field data
 
+source('src/calibration_script.R')
+library(adagio)
+
+result = calibrate_glm(var,
+                          path,
+                          field_file,
+                       aed_file = 'aed2',
+                       glm_file = 'glm3',
+                       phyto_file = 'aed2_phyto_pars',
+                          calib_setup,
+                          glmcmd = NULL,
+                          period,
+                          scaling = TRUE,
+                          verbose = TRUE,
+                          metric = 'NRMSE',
+                          target.fit = target.fit,
+                          target.iter = target.iter,
+                          plotting = TRUE,
+                          output)

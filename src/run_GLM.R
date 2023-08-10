@@ -13,6 +13,7 @@ library(lubridate)
 library(LakeEnsemblR)
 library(LakeEnsemblR.WQ)
 library(ggplot2)
+library(reshape2)
 
 setwd('../GLM-AED2/')
 
@@ -233,7 +234,7 @@ out_file <- file.path("GLM-AED2/", "output","output.nc")
 
 var = c('temp', 'OXY_oxy' ,'NIT_nit','NIT_amm', "PHS_frp", 'SIL_rsi', "OGM_doc", 'PHY_TCHLA')         # variable to which we apply the calibration procedure
 # which parameter do you want to calibrate? a sensitivity analysis helps
-calib_setup <- data.frame('pars' = as.character(c('wind_factor','lw_factor','coef_mix_hyp',
+calib_setup <- data.frame('pars' = as.character(c('wind_factor','lw_factor','coef_mix_hyp',"inflow_factor",
                                                   'Fsed_oxy', 'Ksed_oxy', 'Kdom_minerl', 'Rdom_minerl',
                                                   'Fsed_nit', 'Ksed_nit', 'Knitrif', 'Fsed_amm',
                                                   'Fsed_frp',
@@ -242,10 +243,10 @@ calib_setup <- data.frame('pars' = as.character(c('wind_factor','lw_factor','coe
                                                   )),
                           'lb' = NA,
                           'ub' = NA,
-                          'x0' = c(1,1,0.4, -150, 50, 60, 0.02, -10, 10, 80, 30, 0.5, 18, 4, 1, 3),
-                          'type' = c('glm', 'glm', 'glm', 'aed','aed','aed','aed','aed','aed','aed','aed','aed','aed',
+                          'x0' = c(1,1,0.4,1, -150, 50, 60, 0.02, -10, 10, 80, 30, 0.5, 18, 4, 1, 3),
+                          'type' = c('glm', 'glm', 'glm','glm', 'aed','aed','aed','aed','aed','aed','aed','aed','aed','aed',
                                      "phyto", 'phyto', 'phyto'),
-                          'file' = c('glm3.nml', 'glm3.nml', 'glm3.nml', 'aed2.nml','aed2.nml','aed2.nml',
+                          'file' = c('glm3.nml', 'glm3.nml', 'glm3.nml','glm3.nml', 'aed2.nml','aed2.nml','aed2.nml',
                                      'aed2.nml','aed2.nml','aed2.nml','aed2.nml','aed2.nml','aed2.nml','aed2.nml',
                                      "aed2_phyto_pars.nml", 'aed2_phyto_pars.nml', 'aed2_phyto_pars.nml'))
 calib_setup$lb = calib_setup$x0 * 0.7
@@ -270,8 +271,8 @@ phyto_file = 'aed2_phyto_pars.nml'
 scaling = TRUE       # scaling of the variables in a space of [0,10]; TRUE for CMA-ES
 verbose = TRUE
 metric = 'NRMSE'      # objective function to be minimized, here the root-mean square error
-target.fit = 0.1     # refers to a target fit of 2.0 degrees Celsius (stops when RMSE is below that)
-target.iter = 10    # refers to a maximum run of 20 calibration iterations (stops after that many runs)
+target.fit = 1e-5     # refers to a target fit of 2.0 degrees Celsius (stops when RMSE is below that)
+target.iter = 1000    # refers to a maximum run of 20 calibration iterations (stops after that many runs)
 output = out_file    # path of the output file
 field_file = df_obs_transformed # path of the field data
 

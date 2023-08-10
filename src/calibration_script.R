@@ -280,10 +280,10 @@ run_glm_optim <- function(p, glmcmd, var, scaling, metric, verbose, calib_setup,
   }
   
 
-  error <- try(run_glmcmd(glmcmd, path, verbose))
+  error <- try(run_glmcmd(glmcmd, path, verbose), silent = T)
   
   while (error != 0){
-    error <- try(run_glmcmd(glmcmd, path, verbose))
+    error <- try(run_glmcmd(glmcmd, path, verbose), silent = T)
     next  
   }
   
@@ -296,20 +296,30 @@ run_glm_optim <- function(p, glmcmd, var, scaling, metric, verbose, calib_setup,
       filter(datetime >= get_nml_value(eg_nml, 'start') & datetime <= get_nml_value(eg_nml, 'stop') ) %>%
       select(datetime, depth, all_of(variable)) %>%
       mutate(datetime = as.POSIXct(paste0(as.Date(datetime),' 12:00:00')))
+    
+    error = try(get_var(file = paste0(path, 'output/output.nc'), var_name = variable, reference = 'surface', z_out = seq(0, 25, 0.1)), silent = T)
+    
+    while (error == 0){
+      model_output = get_var(file = paste0(path, 'output/output.nc'), var_name = variable, reference = 'surface', z_out = seq(0, 25, 0.1), t_out = unique(observed$datetime))
+      
+      colnames(model_output)[2:ncol(model_output)] = as.numeric(gsub("[^0-9.]", "", colnames(model_output)[2:ncol(model_output)]))
+      
+      model_output$DateTime =  unique(observed$datetime)
+      
+      mod <- reshape2::melt(model_output, id.vars = 1) 
+      mod$variable = as.numeric(as.character(mod$variable))
+      
+      mod = mod %>%
+        rename(datetime = DateTime, depth = variable, modeled = value) 
+      
+      
+    } else {
+      mod = observed
+      colnames(mod)[3] = 'modeled'
+      mod$modeled = -99999
+    }
+    
 
-    model_output = get_var(file = paste0(path, 'output/output.nc'), var_name = variable, reference = 'surface', z_out = seq(0, 25, 0.1), t_out = unique(observed$datetime))
-    
-    colnames(model_output)[2:ncol(model_output)] = as.numeric(gsub("[^0-9.]", "", colnames(model_output)[2:ncol(model_output)]))
-
-    
-
-     model_output$DateTime =  unique(observed$datetime)
-    
-    mod <- reshape2::melt(model_output, id.vars = 1) 
-    mod$variable = as.numeric(as.character(mod$variable))
-    
-    mod = mod %>%
-      rename(datetime = DateTime, depth = variable, modeled = value) 
     
     colnames(observed)[3] = 'observed'
     

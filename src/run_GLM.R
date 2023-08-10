@@ -252,6 +252,8 @@ calib_setup <- data.frame('pars' = as.character(c('wind_factor','lw_factor','coe
 calib_setup$lb = calib_setup$x0 * 0.7
 calib_setup$ub = calib_setup$x0 * 1.3
 print(calib_setup)
+calib_setup$lb[4] = calib_setup$x0[4] *0.1
+calib_setup$ub[4] = calib_setup$x0[4] * 1.3
 
 glmcmd = NULL        # command to be used, default applies the GLM3r function
 # glmcmd = '/Users/robertladwig/Documents/AquaticEcoDynamics_gfort/GLM/glm'        # custom path to executable

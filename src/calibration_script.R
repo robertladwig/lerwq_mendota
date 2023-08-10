@@ -299,7 +299,7 @@ run_glm_optim <- function(p, glmcmd, var, scaling, metric, verbose, calib_setup,
     
     error = try(get_var(file = paste0(path, 'output/output.nc'), var_name = variable, reference = 'surface', z_out = seq(0, 25, 0.1)), silent = T)
     
-    while (error == 0){
+    if (is.data.frame(error)){
       model_output = get_var(file = paste0(path, 'output/output.nc'), var_name = variable, reference = 'surface', z_out = seq(0, 25, 0.1), t_out = unique(observed$datetime))
       
       colnames(model_output)[2:ncol(model_output)] = as.numeric(gsub("[^0-9.]", "", colnames(model_output)[2:ncol(model_output)]))

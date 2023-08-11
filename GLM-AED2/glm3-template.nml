@@ -90,8 +90,8 @@
    strmbd_drag = 0.016
    inflow_factor = 1
    inflow_fl = 'inflow.csv'
-   inflow_varnum = 11
-   inflow_vars = 'Time','FLOW','TEMP','PHS_frp','PHS_frp_ads','OGM_dop','OGM_pop','NIT_amm','NIT_nit','OGM_don','OGM_docr'
+   inflow_varnum = 14
+   inflow_vars = 'FLOW','SALT','TEMP','PHS_frp','PHS_frp_ads','OGM_dop','OGM_pop','OGM_don','NIT_amm','NIT_nit','OGM_docr','CAR_dic','CAR_pH','SIL_rsi'
 /
 &outflow
    num_outlet = 1

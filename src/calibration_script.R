@@ -19,9 +19,12 @@ calibrate_glm <- function(var = 'temp',
   message('Starting new calibration routine.')
  readline(prompt = "This will overwrite any nml-files in the current directory, press any button to continue.");
   
-    if (file.exists(paste0(path,'/calib_results.csv'))){
-      file.remove(paste0(path,'/calib_results.csv'))
+    if (file.exists(paste0(path,'/calib_results_nse.csv'))){
+      file.remove(paste0(path,'/calib_results_nse.csv'))
     }
+ if (file.exists(paste0(path,'/calib_results_nrmse.csv'))){
+   file.remove(paste0(path,'/calib_results_nrmse.csv'))
+ }
     if (file.exists(paste0(path,'/calib_par.csv'))){
       file.remove(paste0(path,'/calib_par.csv'))
     }
@@ -290,6 +293,7 @@ run_glm_optim <- function(p, glmcmd, var, scaling, metric, verbose, calib_setup,
   eg_nml = read_nml(paste0(path, glm_file,'.nml'))
   
   all_nrmse = c()
+  all_nse = c()
   
   for (variable in var){
     observed <- field_file %>%
@@ -330,7 +334,10 @@ run_glm_optim <- function(p, glmcmd, var, scaling, metric, verbose, calib_setup,
     
     nrmse = sqrt(sum(df$residual, na.rm = T)/length(na.omit(df$observed))) / (max(df$observed, na.rm = T) - min(df$observed, na.rm = T))
     
+    nse = 1 - sum(df$residual, na.rm = T)/sum((df$observed - mean(df$observed, na.rm = T))^2, na.rm = T)
+    
     all_nrmse <- append(all_nrmse, nrmse)
+    all_nse = append(all_nse, nse)
     
   }
   
@@ -340,13 +347,30 @@ run_glm_optim <- function(p, glmcmd, var, scaling, metric, verbose, calib_setup,
   colnames(dat) = var
   dat.df = as.data.frame(cbind(data.frame('time' = format(Sys.time())), dat,data.frame('NRMSE' = fit)))
 
-  if(!file.exists(paste0(path,'/calib_results.csv'))){
-    write.csv(dat.df,paste0(path,'/calib_results.csv'), row.names = F, quote = F)
+  if(!file.exists(paste0(path,'/calib_results_nrmse.csv'))){
+    write.csv(dat.df,paste0(path,'/calib_results_nrmse.csv'), row.names = F, quote = F)
   }else{
-    df = read.csv(paste0(path,'/calib_results.csv'))
+    df = read.csv(paste0(path,'/calib_results_nrmse.csv'))
     df = rbind.data.frame(dat.df, df)
-    write.csv(df,paste0(path,'/calib_results.csv'), row.names = F, quote = F)
+    write.csv(df,paste0(path,'/calib_results_nrmse.csv'), row.names = F, quote = F)
   }
+  
+  dat = (matrix(all_nse, nrow= 1))
+  colnames(dat) = var
+  dat.df = as.data.frame(cbind(data.frame('time' = format(Sys.time())), dat,data.frame('NRMSE' = fit)))
+  
+  if(!file.exists(paste0(path,'/calib_results_nse.csv'))){
+    df = dat.df
+    write.csv(dat.df,paste0(path,'/calib_results_nse.csv'), row.names = F, quote = F)
+  }else{
+    df = read.csv(paste0(path,'/calib_results_nse.csv'))
+    df = rbind.data.frame(dat.df, df)
+    write.csv(df,paste0(path,'/calib_results_nse.csv'), row.names = F, quote = F)
+  }
+  
+  g1 = ggplot(reshape2::melt(df, id.vars = c('time', 'NRMSE'))) +
+    geom_point(aes(NRMSE, value, col  =variable)) + ylab('NSE') +  xlab('NRMSE') +theme(legend.position="bottom")
+  ggsave(g1, filename= paste0(path,'/calibration.png'), dpi = 300, width =20, height = 15, units = 'cm')
   
   dat_parm = matrix(p, nrow = 1)
   colnames(dat_parm) = calib_setup$pars

@@ -79,6 +79,7 @@ glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'PHS_sed_fr
 glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'OGM_Psed_pop', reference = 'surface')
 glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'CAR_dic', reference = 'surface')
 glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'OGM_poc', reference = 'surface')
+glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'OGM_doc', reference = 'surface')
 glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'OGM_don', reference = 'surface')
 glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'OGM_dop', reference = 'surface')
 glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'OGM_pop', reference = 'surface')
@@ -215,7 +216,7 @@ df_obs_transformed = df_obs %>%
          NIT_nit = no3no2 * 1/14,
          PHS_frp = drp * 1/31,
          SIL_rsi = drsif * 1/28,
-         OGM_doc = doc * 1/12,
+         OGM_doc = doc * 1000/12,
          NIT_amm = nh4 * 1/14,
          OGM_ton = totnuf * 1/14, # OGM_dop + OGM_pop + PHS_frp   
          OGM_top = totpuf * 1/31,#OGM_don + OGM_pon + NIT_amm + NIT_nit
@@ -274,7 +275,7 @@ scaling = TRUE       # scaling of the variables in a space of [0,10]; TRUE for C
 verbose = TRUE
 metric = 'NRMSE'      # objective function to be minimized, here the root-mean square error
 target.fit = 1e-5     # refers to a target fit of 2.0 degrees Celsius (stops when RMSE is below that)
-target.iter = 1000    # refers to a maximum run of 20 calibration iterations (stops after that many runs)
+target.iter = 100    # refers to a maximum run of 20 calibration iterations (stops after that many runs)
 output = out_file    # path of the output file
 field_file = df_obs_transformed # path of the field data
 

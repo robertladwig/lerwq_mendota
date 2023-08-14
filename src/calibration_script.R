@@ -25,6 +25,9 @@ calibrate_glm <- function(var = 'temp',
  if (file.exists(paste0(path,'/calib_results_nrmse.csv'))){
    file.remove(paste0(path,'/calib_results_nrmse.csv'))
  }
+ if (file.exists(paste0(path,'/calib_results_loglike.csv'))){
+   file.remove(paste0(path,'/calib_results_loglike.csv'))
+ }
     if (file.exists(paste0(path,'/calib_par.csv'))){
       file.remove(paste0(path,'/calib_par.csv'))
     }
@@ -55,17 +58,31 @@ calibrate_glm <- function(var = 'temp',
   eg_nml <- set_nml(eg_nml, 'stop', period$calibration$end)
   write_nml(eg_nml, file = paste0(path,glm_file,'.nml'))
 
-  glmOPT <- pureCMAES(par = parameters, fun = run_glm_optim, lower = rep(0,length(parameters)), 
-                        upper = rep(10,length(parameters)), 
-                        sigma = 0.5, 
-                        stopfitness = target.fit, 
-                        stopeval = target.iter, 
+  glmOPT <- pureCMAES(par = parameters, fun = run_glm_optim, lower = rep(0,length(parameters)),
+                        upper = rep(10,length(parameters)),
+                        sigma = 0.5,
+                        stopfitness = target.fit,
+                        stopeval = target.iter,
                         glmcmd = glmcmd, var = var,
                         scaling = scaling, metric = metric, verbose = verbose,
                         calib_setup = calib_setup, path = path, field_file = field_file,
                       phyto_file = phyto_file,
                       glm_file = glm_file,
                       aed_file = aed_file)
+  
+  # glmOPT <- cma_es(par = parameters, fn = run_glm_optim, lower = rep(0,length(parameters)), 
+  #                     upper = rep(10,length(parameters)), 
+  #                     #sigma = 0.5, 
+  #                     control = list(
+  #                     stopfitness = target.fit, 
+  #                     maxit = target.iter,
+  #                     vectorize = T),
+  #                     glmcmd = glmcmd, var = var,
+  #                     scaling = scaling, metric = metric, verbose = verbose,
+  #                     calib_setup = calib_setup, path = path, field_file = field_file,
+  #                     phyto_file = phyto_file,
+  #                     glm_file = glm_file,
+  #                     aed_file = aed_file)
 
   # 
   # 
@@ -285,15 +302,15 @@ run_glm_optim <- function(p, glmcmd, var, scaling, metric, verbose, calib_setup,
 
   error <- try(run_glmcmd(glmcmd, path, verbose), silent = T)
   
-  while (error != 0){
-    error <- try(run_glmcmd(glmcmd, path, verbose), silent = T)
-    next  
-  }
+  if (error != 0){
+    fit = 999999
+  } else{
   
   eg_nml = read_nml(paste0(path, glm_file,'.nml'))
   
   all_nrmse = c()
   all_nse = c()
+  all_likelihood = c()
   
   for (variable in var){
     observed <- field_file %>%
@@ -336,24 +353,35 @@ run_glm_optim <- function(p, glmcmd, var, scaling, metric, verbose, calib_setup,
     
     nse = 1 - sum(df$residual, na.rm = T)/sum((df$observed - mean(df$observed, na.rm = T))^2, na.rm = T)
     
+    lnlikelihood = sum(dnorm(df$observed, mean = df$modeled, log = TRUE), na.rm = T)
+    
     all_nrmse <- append(all_nrmse, nrmse)
     all_nse = append(all_nse, nse)
+    all_likelihood = append(all_likelihood, lnlikelihood)
+    
     
   }
   
   fit = (sum(all_nrmse))
+  }
   
   dat = (matrix(all_nrmse, nrow= 1))
   colnames(dat) = var
   dat.df = as.data.frame(cbind(data.frame('time' = format(Sys.time())), dat,data.frame('NRMSE' = fit)))
 
   if(!file.exists(paste0(path,'/calib_results_nrmse.csv'))){
+    df = dat.df
     write.csv(dat.df,paste0(path,'/calib_results_nrmse.csv'), row.names = F, quote = F)
   }else{
     df = read.csv(paste0(path,'/calib_results_nrmse.csv'))
     df = rbind.data.frame(dat.df, df)
     write.csv(df,paste0(path,'/calib_results_nrmse.csv'), row.names = F, quote = F)
   }
+  g1 = ggplot(reshape2::melt(df, id.vars = c('time', 'NRMSE'))) +
+    geom_point(aes(NRMSE, value, col  =as.numeric(as.POSIXct(time)))) + ylab('NRMSE') +  xlab('NRMSE') +
+    theme(legend.position="bottom") +
+    facet_wrap(~variable, scales = 'free')
+  ggsave(g1, filename= paste0(path,'/nrmse.png'), dpi = 300, width =20, height = 20, units = 'cm')
   
   dat = (matrix(all_nse, nrow= 1))
   colnames(dat) = var
@@ -369,8 +397,33 @@ run_glm_optim <- function(p, glmcmd, var, scaling, metric, verbose, calib_setup,
   }
   
   g1 = ggplot(reshape2::melt(df, id.vars = c('time', 'NRMSE'))) +
-    geom_point(aes(NRMSE, value, col  =variable)) + ylab('NSE') +  xlab('NRMSE') +theme(legend.position="bottom")
-  ggsave(g1, filename= paste0(path,'/calibration.png'), dpi = 300, width =20, height = 15, units = 'cm')
+    geom_point(aes(NRMSE, value, col  =as.numeric(as.POSIXct(time)))) + ylab('NSE') +  xlab('NRMSE') +
+    theme(legend.position="bottom") +
+    facet_wrap(~variable, scales = 'free')
+  ggsave(g1, filename= paste0(path,'/nse.png'), dpi = 300, width =20, height = 20, units = 'cm')
+  
+  dat = (matrix(all_likelihood, nrow= 1))
+  colnames(dat) = var
+  dat.df = as.data.frame(cbind(data.frame('time' = format(Sys.time())), dat,data.frame('NRMSE' = fit)))
+  
+  if(!file.exists(paste0(path,'/calib_results_loglike.csv'))){
+    df = dat.df
+    write.csv(dat.df,paste0(path,'/calib_results_loglike.csv'), row.names = F, quote = F)
+  }else{
+    df = read.csv(paste0(path,'/calib_results_loglike.csv'))
+    df = rbind.data.frame(dat.df, df)
+    write.csv(df,paste0(path,'/calib_results_loglike.csv'), row.names = F, quote = F)
+  }
+  
+  
+
+  # g1 = ggplot(reshape2::melt(df, id.vars = c('time', 'NRMSE'))) +
+  #   geom_point(aes(NRMSE, value, col  =variable)) + ylab('NSE') +  xlab('NRMSE') +theme(legend.position="bottom")
+  g1 = ggplot(reshape2::melt(df, id.vars = c('time', 'NRMSE'))) +
+    geom_point(aes(NRMSE, value, col  =as.numeric(as.POSIXct(time)))) + ylab('logLik') +  xlab('NRMSE') +
+    theme(legend.position="bottom") +
+    facet_wrap(~variable, scales = 'free')
+  ggsave(g1, filename= paste0(path,'/logLik.png'), dpi = 300, width =20, height = 20, units = 'cm')
   
   dat_parm = matrix(p, nrow = 1)
   colnames(dat_parm) = calib_setup$pars

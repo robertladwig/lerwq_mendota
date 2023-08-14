@@ -51,10 +51,14 @@ inflow_combined <- data.frame('Time' = inflow_1$time, 'FLOW' = inflow_1$FLOW + i
                               'PHS_frp_ads' = (inflow_1$PHS_frp_ads * (inflow_1$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW))  + (inflow_2$PHS_frp_ads *  (inflow_2$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW)),
                               'OGM_dop' = (inflow_1$OGM_dop * (inflow_1$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW))  + (inflow_2$OGM_dop *  (inflow_2$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW)),
                               'OGM_pop' = (inflow_1$OGM_pop * (inflow_1$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW))  + (inflow_2$OGM_pop *  (inflow_2$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW)),
+                              'OGM_don' = (inflow_1$OGM_don * (inflow_1$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW))  + (inflow_2$OGM_don *  (inflow_2$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW)),
                               'NIT_amm' = (inflow_1$NIT_amm *  (inflow_1$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW)) + (inflow_2$TEMP *  (inflow_2$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW)),
                               'NIT_nit' = (inflow_1$NIT_nit *  (inflow_1$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW)) + (inflow_2$NIT_nit *  (inflow_2$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW)),
-                              'OGM_don' = (inflow_1$OGM_don * (inflow_1$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW))  + (inflow_2$OGM_don *  (inflow_2$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW)),
-                              'OGM_docr' = (inflow_1$OGM_docr *  (inflow_1$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW)) + (inflow_2$OGM_docr *  (inflow_2$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW)))
+                              
+                              'OGM_docr' = (inflow_1$OGM_docr *  (inflow_1$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW)) + (inflow_2$OGM_docr *  (inflow_2$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW)),
+                              'CAR_dic' = (inflow_1$CAR_dic *  (inflow_1$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW)) + (inflow_2$CAR_dic *  (inflow_2$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW)),
+                              'CAR_pH' = (inflow_1$CAR_pH *  (inflow_1$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW)) + (inflow_2$CAR_pH *  (inflow_2$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW)),
+                              'SIL_rsi' = (inflow_1$SIL_rsi *  (inflow_1$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW)) + (inflow_2$SIL_rsi *  (inflow_2$FLOW)/ (inflow_1$FLOW + inflow_2$FLOW)))
 
 df_1 = inflow_combined %>% mutate(Time = as.Date(Time))
 df_2 = inflow %>% mutate(Time = as.Date(Time))

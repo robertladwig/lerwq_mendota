@@ -95,102 +95,107 @@ setwd('..')
 # 
 
 # modify files to account for warm-up and flows
-# nml_file <- file.path("GLM-AED2/", 'glm3.nml')
-# 
-# file.copy(from = 'GLM/meteo_file.csv', to = 'GLM-AED2/meteo_file.csv', overwrite = T)
-# 
-# df_meteo <- read.csv("GLM-AED2/meteo_file.csv")
-# warm_up = df_meteo %>%
-#   mutate(year = year(Date)) %>%
-#   filter(year < 2000) %>%
-#   select(-year)
-# 
-# start <- as.POSIXct("1990-01-01 00:00:00")
-# end <- as.POSIXct("1994-12-31 23:00:00")
-# warmup_period <- seq(from=start, by=3600, to=end)
-# 
-# warm_up$Date = warmup_period
-# 
-# write.csv(x = rbind(warm_up, df_meteo), file = "GLM-AED2/meteo_file.csv", quote = F, row.names = F)
-# 
-# eg_nml <- read_nml(nml_file = file.path(nml_file))
-# eg_nml <- set_nml(eg_nml, 'start', "1990-01-01 00:00:00")
-# 
-# write_nml(eg_nml, file = nml_file)
-# 
-# file.copy(from = "boundaryconditions/inflow.csv", to = 'GLM-AED2/inflow.csv', overwrite = T)
-# file.copy(from = "boundaryconditions/outflow.csv", to = 'GLM-AED2/outflow.csv')
-# 
-# inflow = read.csv("GLM-AED2/inflow.csv")
-# warm_up = inflow %>%
-#   mutate(year = year(Time)) %>%
-#   filter(year < 2000) %>%
-#   select(-year)
-# 
-# start <- as.POSIXct("1990-01-01")
-# end <- as.POSIXct("1994-12-31")
-# warmup_period <- as.Date(seq(from=start, by=24 * 3600, to=end))
-# 
-# warm_up$Time = warmup_period
-# 
-# write.csv(x = rbind(warm_up, inflow), file = "GLM-AED2/inflow.csv", quote = F, row.names = F)
-# 
-# outflow = read.csv("GLM-AED2/outflow.csv")
-# warm_up = outflow %>%
-#   mutate(year = year(time)) %>%
-#   filter(year < 2000) %>%
-#   select(-year)
-# 
-# start <- as.POSIXct("1990-01-01")
-# end <- as.POSIXct("1994-12-31")
-# warmup_period <- as.Date(seq(from=start, by=24 * 3600, to=end))
-# 
-# warm_up$time = warmup_period
-# 
-# ggplot(rbind(warm_up, outflow)) +
-#   geom_line(aes(time, FLOW))
-# 
-# write.csv(x = rbind(warm_up, outflow), file = "GLM-AED2/outflow.csv", quote = F, row.names = F)
-# 
-# eg_nml <- read_nml(nml_file = file.path(nml_file))
-# eg_nml <- set_nml(eg_nml, 'num_inflows', 1)
-# eg_nml <- set_nml(eg_nml, 'inflow_fl', "inflow.csv")
-# eg_nml <- set_nml(eg_nml, 'inflow_varnum', length(inflow))
-# eg_nml <- set_nml(eg_nml, 'inflow_vars', colnames(inflow))
-# 
-# eg_nml <- set_nml(eg_nml, 'num_outlet',1)
-# eg_nml <- set_nml(eg_nml, 'outl_elvs',257)
-# eg_nml <- set_nml(eg_nml, 'outflow_fl', "outflow.csv")
-# 
-# write_nml(eg_nml, file = nml_file)
-# 
-# # run it again, GLM
-# met <- read.csv("GLM-AED2/meteo_file.csv")
-# infl <- read.csv("GLM-AED2/inflow.csv")
-# outfl <- read.csv("GLM-AED2/outflow.csv")
-# 
-# m.met = reshape2::melt(met, by = 'Date')
-# 
-# ggplot(m.met) +
-#   geom_line(aes(as.Date(Date), value)) + facet_wrap(~ variable, scales = 'free')
-# 
-# ggplot() +
-#   geom_line(data = infl, aes(as.Date(Time), FLOW, col = 'in')) +
-#   geom_line(data = outfl, aes(as.Date(time), FLOW, col = 'out'))
-# 
-# out_file <- file.path("GLM-AED2/", "output","output.nc")
-# GLM3r::run_glm('GLM-AED2/')
-# 
-# water_height <- get_surface_height(file = out_file)
-# ggplot(water_height, aes(DateTime, surface_height)) +
-#   geom_line() +
-#   ggtitle('Surface water level') +
-#   xlab(label = '') + ylab(label = 'Water level (m)') +
-#   theme_minimal()
-# 
-# glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'temp', reference = 'surface')
-# glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'PHY_TCHLA', reference = 'surface')
-# glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'OXY_oxy', reference = 'surface')
+nml_file <- file.path("GLM-AED2/", 'glm3.nml')
+
+file.copy(from = 'GLM/meteo_file.csv', to = 'GLM-AED2/meteo_file.csv', overwrite = T)
+
+df_meteo <- read.csv("GLM-AED2/meteo_file.csv")# %>%
+ # mutate(Date = as.POSIXct(as.character(df_meteo$Date),format='%Y-%m-%d %H:%M:%S'))
+warm_up = df_meteo %>%
+  mutate(year = year(Date)) %>%
+  filter(year < 2000) %>%
+  select(-year)
+
+start <- as.POSIXct("1990-01-01 00:00:00", tz = "ETC/GMT+6")
+end <- as.POSIXct("1994-12-31 23:00:00", tz = "ETC/GMT+6")
+warmup_period <- as.character(seq(from=start, by=3600, to=end))
+
+
+warm_up$Date = warmup_period
+
+
+x = rbind(warm_up, df_meteo)
+
+write.csv(x = rbind(warm_up, df_meteo), file = "GLM-AED2/meteo_file.csv", quote = F, row.names = F)
+
+eg_nml <- read_nml(nml_file = file.path(nml_file))
+eg_nml <- set_nml(eg_nml, 'start', "1990-01-01 00:00:00")
+
+write_nml(eg_nml, file = nml_file)
+
+file.copy(from = "boundaryconditions/inflow.csv", to = 'GLM-AED2/inflow.csv', overwrite = T)
+file.copy(from = "boundaryconditions/outflow.csv", to = 'GLM-AED2/outflow.csv')
+
+inflow = read.csv("GLM-AED2/inflow.csv")
+warm_up = inflow %>%
+  mutate(year = year(Time)) %>%
+  filter(year < 2000) %>%
+  select(-year)
+
+start <- as.POSIXct("1990-01-01")
+end <- as.POSIXct("1994-12-31")
+warmup_period <- as.Date(seq(from=start, by=24 * 3600, to=end))
+
+warm_up$Time = warmup_period
+
+write.csv(x = rbind(warm_up, inflow), file = "GLM-AED2/inflow.csv", quote = F, row.names = F)
+
+outflow = read.csv("GLM-AED2/outflow.csv")
+warm_up = outflow %>%
+  mutate(year = year(time)) %>%
+  filter(year < 2000) %>%
+  select(-year)
+
+start <- as.POSIXct("1990-01-01")
+end <- as.POSIXct("1994-12-31")
+warmup_period <- as.Date(seq(from=start, by=24 * 3600, to=end))
+
+warm_up$time = warmup_period
+
+ggplot(rbind(warm_up, outflow)) +
+  geom_line(aes(time, FLOW))
+
+write.csv(x = rbind(warm_up, outflow), file = "GLM-AED2/outflow.csv", quote = F, row.names = F)
+
+eg_nml <- read_nml(nml_file = file.path(nml_file))
+eg_nml <- set_nml(eg_nml, 'num_inflows', 1)
+eg_nml <- set_nml(eg_nml, 'inflow_fl', "inflow.csv")
+eg_nml <- set_nml(eg_nml, 'inflow_varnum', length(inflow))
+eg_nml <- set_nml(eg_nml, 'inflow_vars', colnames(inflow))
+
+eg_nml <- set_nml(eg_nml, 'num_outlet',1)
+eg_nml <- set_nml(eg_nml, 'outl_elvs',257)
+eg_nml <- set_nml(eg_nml, 'outflow_fl', "outflow.csv")
+
+write_nml(eg_nml, file = nml_file)
+
+# run it again, GLM
+met <- read.csv("GLM-AED2/meteo_file.csv")
+infl <- read.csv("GLM-AED2/inflow.csv")
+outfl <- read.csv("GLM-AED2/outflow.csv")
+
+m.met = reshape2::melt(met, by = 'Date')
+
+ggplot(m.met) +
+  geom_line(aes(as.Date(Date), value)) + facet_wrap(~ variable, scales = 'free')
+
+ggplot() +
+  geom_line(data = infl, aes(as.Date(Time), FLOW, col = 'in')) +
+  geom_line(data = outfl, aes(as.Date(time), FLOW, col = 'out'))
+
+out_file <- file.path("GLM-AED2/", "output","output.nc")
+GLM3r::run_glm('GLM-AED2/')
+
+water_height <- get_surface_height(file = out_file)
+ggplot(water_height, aes(DateTime, surface_height)) +
+  geom_line() +
+  ggtitle('Surface water level') +
+  xlab(label = '') + ylab(label = 'Water level (m)') +
+  theme_minimal()
+
+glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'temp', reference = 'surface')
+glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'PHY_TCHLA', reference = 'surface')
+glmtools::plot_var(nc_file = 'GLM-AED2/output/output.nc', var_name = 'OXY_oxy', reference = 'surface')
 
 # work on calibration algorithm
 # setwd('..')
@@ -266,11 +271,15 @@ calib_setup <- data.frame('pars' = as.character(c('wind_factor','lw_factor','coe
                                      'aed2_phyto_pars.nml', 'aed2_phyto_pars.nml', 'aed2_phyto_pars.nml',
                                      'aed2_phyto_pars.nml', 'aed2_phyto_pars.nml', 'aed2_phyto_pars.nml',
                                      'aed2_phyto_pars.nml', 'aed2_phyto_pars.nml', 'aed2_phyto_pars.nml'))
-calib_setup$lb = calib_setup$x0 * 0.7
-calib_setup$ub = calib_setup$x0 * 1.3
+calib_setup$lb[ calib_setup$x0 >= 0] = calib_setup$x0[ calib_setup$x0 >= 0] * 0.7
+calib_setup$ub[ calib_setup$x0 >= 0] = calib_setup$x0[ calib_setup$x0 >= 0] * 1.3
+calib_setup$lb[ calib_setup$x0 < 0] = calib_setup$x0[ calib_setup$x0 < 0] * 1.3
+calib_setup$ub[ calib_setup$x0 < 0] = calib_setup$x0[ calib_setup$x0 < 0] * 0.7
 calib_setup$lb[5] = 0.01
 calib_setup$ub[5] = 2.0
 print(calib_setup)
+
+calib_setup$lb > calib_setup$ub
 
 glmcmd = NULL        # command to be used, default applies the GLM3r function
 # glmcmd = '/Users/robertladwig/Documents/AquaticEcoDynamics_gfort/GLM/glm'        # custom path to executable
@@ -291,12 +300,13 @@ scaling = TRUE       # scaling of the variables in a space of [0,10]; TRUE for C
 verbose = TRUE
 metric = 'NRMSE'      # objective function to be minimized, here the root-mean square error
 target.fit = 1e-5     # refers to a target fit of 2.0 degrees Celsius (stops when RMSE is below that)
-target.iter = 3000    # refers to a maximum run of 20 calibration iterations (stops after that many runs)
+target.iter = 100    # refers to a maximum run of 20 calibration iterations (stops after that many runs)
 output = out_file    # path of the output file
 field_file = df_obs_transformed # path of the field data
 
 source('src/calibration_script.R')
 library(adagio)
+library(DEoptim)
 
 result = calibrate_glm(var,
                           path,
@@ -307,7 +317,7 @@ result = calibrate_glm(var,
                           calib_setup,
                           glmcmd = NULL,
                           period,
-                          scaling = TRUE,
+                          scaling = FALSE,
                           verbose = TRUE,
                           metric = 'NRMSE',
                           target.fit = target.fit,

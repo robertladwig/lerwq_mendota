@@ -20,18 +20,21 @@ calibrate_glm <- function(var = 'temp',
   message('Starting new calibration routine.')
  readline(prompt = "This will overwrite any nml-files in the current directory, press any button to continue.");
   
-    if (file.exists(paste0(path,'/calib_results_nse.csv'))){
-      file.remove(paste0(path,'/calib_results_nse.csv'))
-    }
- if (file.exists(paste0(path,'/calib_results_nrmse.csv'))){
-   file.remove(paste0(path,'/calib_results_nrmse.csv'))
+ if (parallel == F){
+   if (file.exists(paste0(path,'/calib_results_nse.csv'))){
+     file.remove(paste0(path,'/calib_results_nse.csv'))
+   }
+   if (file.exists(paste0(path,'/calib_results_nrmse.csv'))){
+     file.remove(paste0(path,'/calib_results_nrmse.csv'))
+   }
+   if (file.exists(paste0(path,'/calib_results_loglike.csv'))){
+     file.remove(paste0(path,'/calib_results_loglike.csv'))
+   }
+   if (file.exists(paste0(path,'/calib_par.csv'))){
+     file.remove(paste0(path,'/calib_par.csv'))
+   }
+   
  }
- if (file.exists(paste0(path,'/calib_results_loglike.csv'))){
-   file.remove(paste0(path,'/calib_results_loglike.csv'))
- }
-    if (file.exists(paste0(path,'/calib_par.csv'))){
-      file.remove(paste0(path,'/calib_par.csv'))
-    }
 
   
   if(file.exists(paste0(path, glm_file,'-template.nml'))){

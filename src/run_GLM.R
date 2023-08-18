@@ -2,8 +2,8 @@
 rm(list = ls())
 
 # set wd to current dir of script
-# setwd(dirname(rstudioapi::getSourceEditorContext()$path))
-setwd("C:/Scratch/Ladwig/lerwq_mendota/src")
+setwd(dirname(rstudioapi::getSourceEditorContext()$path))
+# setwd("C:/Scratch/Ladwig/lerwq_mendota/src")
 
 library(glmtools)
 library(tidyverse)
@@ -293,14 +293,14 @@ period = list('calibration' = list('start' = get_nml_value(eg_nml, 'start'),
 # the ratio value is the ratio of calibration period to validation period
 print(period)
 path = "GLM-AED2/"      # simulation path/folder
-aed_file = 'aed2.nml'
-glm_file = 'glm3.nml'
-phyto_file = 'aed2_phyto_pars.nml'
+aed_file = 'aed2'
+glm_file = 'glm3'
+phyto_file = 'aed2_phyto_pars'
 scaling = TRUE       # scaling of the variables in a space of [0,10]; TRUE for CMA-ES
 verbose = TRUE
 metric = 'NRMSE'      # objective function to be minimized, here the root-mean square error
 target.fit = 1e-5     # refers to a target fit of 2.0 degrees Celsius (stops when RMSE is below that)
-target.iter = 100    # refers to a maximum run of 20 calibration iterations (stops after that many runs)
+target.iter = 3000    # refers to a maximum run of 20 calibration iterations (stops after that many runs)
 output = out_file    # path of the output file
 field_file = df_obs_transformed # path of the field data
 
@@ -323,7 +323,8 @@ result = calibrate_glm(var,
                           target.fit = target.fit,
                           target.iter = target.iter,
                           plotting = TRUE,
-                          output)
+                          output,
+                       parallelMode = T)
 
 # check
 

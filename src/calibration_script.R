@@ -13,7 +13,8 @@ calibrate_glm <- function(var = 'temp',
                              target.fit = 1.5,
                              target.iter = 100,
                              plotting = TRUE,
-                             output){
+                             output,
+                          parallelMode = F){
   
   # Development message 
   message('Starting new calibration routine.')
@@ -69,7 +70,8 @@ calibrate_glm <- function(var = 'temp',
   #                     phyto_file = phyto_file,
   #                     glm_file = glm_file,
   #                     aed_file = aed_file)
-  glmOPT <- DEoptim(fn = run_glm_optim, lower = calib_setup$lb,
+  if (parallelMode == F){
+    glmOPT <- DEoptim(fn = run_glm_optim, lower = calib_setup$lb,
                       upper = calib_setup$ub,
                       control = list(itermax = target.iter),
                       glmcmd = glmcmd, var = var,
@@ -78,6 +80,22 @@ calibrate_glm <- function(var = 'temp',
                       phyto_file = phyto_file,
                       glm_file = glm_file,
                       aed_file = aed_file)
+  } else {
+    glmOPT <- DEoptim(fn = run_glm_optim_parallel, lower = calib_setup$lb,
+                      upper = calib_setup$ub,
+                      control = list(itermax = target.iter, parallelType=1,
+                                     packages = c('glmtools', 'dplyr'),
+                                     parVar = c('glmcmd', 'var', 'scaling', 'metric', 'verbose',
+                                                'calib_setup', 'path', 'field_file', 'phyto_file', 'glm_file', 'aed_file')),
+                      glmcmd = glmcmd, var = var,
+                      scaling = scaling, metric = metric, verbose = verbose,
+                      calib_setup = calib_setup, path = path, field_file = field_file,
+                      phyto_file = phyto_file,
+                      glm_file = glm_file,
+                      aed_file = aed_file)
+  }
+
+
   # glmOPT <- cma_es(par = parameters, fn = run_glm_optim, lower = rep(0,length(parameters)), 
   #                     upper = rep(10,length(parameters)), 
   #                     #sigma = 0.5, 
@@ -285,7 +303,7 @@ run_glm_optim <- function(p, glmcmd, var, scaling, metric, verbose, calib_setup,
   if (scaling == TRUE){
     p <- wrapper_scales(p, calib_setup$lb, calib_setup$ub)
   }
-  
+
   
   for (nml_file in unique(calib_setup$file)){
     eg_nml <- read_nml(paste0(path,nml_file))
@@ -464,4 +482,206 @@ run_glmcmd <- function(glmcmd, path, verbose){
   } else{
     system(glmcmd,ignore.stdout=TRUE)
   }
+}
+
+
+run_glm_optim_parallel <- function(p, glmcmd, var, scaling, metric, verbose, calib_setup, path, field_file, phyto_file = phyto_file,
+                          glm_file = glm_file,
+                          aed_file = aed_file){
+  
+  wrapper_scales <- function(x, lb, ub){
+    y <-  lb+(ub-lb)/(10)*(x)
+    return(y)
+  }
+  
+  
+  run_glmcmd <- function(glmcmd, path, verbose){
+    if (is.null(glmcmd)){
+      run_glm(path, verbose = verbose)
+    } else{
+      system(glmcmd,ignore.stdout=TRUE)
+    }
+  }
+  
+  
+  if (scaling == TRUE){
+    p <- wrapper_scales(p, calib_setup$lb, calib_setup$ub)
+  }
+  
+  temp_folder = paste0(tempfile(),'/')
+  
+  dir.create(temp_folder)
+  
+  file.copy(from = paste0(path,glm_file,'.nml'), to = paste0(temp_folder,glm_file,'.nml'))
+  file.copy(from = paste0(path,aed_file,'.nml'), to = paste0(temp_folder,aed_file,'.nml'))
+  file.copy(from = paste0(path,phyto_file,'.nml'), to = paste0(temp_folder,phyto_file,'.nml'))
+  file.copy(from = paste0(path,'inflow.csv'), to = paste0(temp_folder,'inflow.csv'))
+  file.copy(from = paste0(path,'outflow.csv'), to = paste0(temp_folder,'outflow.csv'))
+  file.copy(from = paste0(path,'meteo_file.csv'), to = paste0(temp_folder,'meteo_file.csv'))
+  
+  for (nml_file in unique(calib_setup$file)){
+    eg_nml <- read_nml(paste0(temp_folder,nml_file))
+    
+    idx = which(calib_setup$file == nml_file)
+    use_p = p[idx]
+    nml_setup = calib_setup %>% filter(file == nml_file)
+    
+    for(i in 1:length(nml_setup$pars[!duplicated(nml_setup$pars)])){
+      if (any(nml_setup$pars[!duplicated(nml_setup$pars)][i] == nml_setup$pars[duplicated(nml_setup$pars)])){
+        eg_nml <- set_nml(eg_nml, nml_setup$pars[!duplicated(nml_setup$pars)][i], 
+                          use_p[which(nml_setup$pars[!duplicated(nml_setup$pars)][i] == nml_setup$pars)])
+      } else {
+        eg_nml <- set_nml(eg_nml,nml_setup$pars[!duplicated(nml_setup$pars)][i],use_p[!duplicated(nml_setup$pars)][i])
+      }
+    }
+    
+    write_nml(eg_nml, file = paste0(temp_folder, nml_file))
+    
+  }
+  
+  
+  error <- try(run_glmcmd(glmcmd, temp_folder, verbose), silent = T)
+  
+  if (error != 0){
+    fit = 999999
+  } else{
+    
+    eg_nml = read_nml(paste0(temp_folder, glm_file,'.nml'))
+    
+    all_nrmse = c()
+    all_nse = c()
+    all_likelihood = c()
+    
+    for (variable in var){
+      observed <- field_file %>%
+        filter(datetime >= get_nml_value(eg_nml, 'start') & datetime <= get_nml_value(eg_nml, 'stop') ) %>%
+        select(datetime, depth, all_of(variable)) %>%
+        mutate(datetime = as.POSIXct(paste0(as.Date(datetime),' 12:00:00')))
+      
+      error = try(get_var(file = paste0(temp_folder, 'output/output.nc'), var_name = variable, reference = 'surface', z_out = seq(0, 25, 0.1)), silent = T)
+      
+      if (is.data.frame(error)){
+        model_output = get_var(file = paste0(temp_folder, 'output/output.nc'), var_name = variable, reference = 'surface', z_out = seq(0, 25, 0.1), t_out = unique(observed$datetime))
+        
+        colnames(model_output)[2:ncol(model_output)] = as.numeric(gsub("[^0-9.]", "", colnames(model_output)[2:ncol(model_output)]))
+        
+        model_output$DateTime =  unique(observed$datetime)
+        
+        mod <- reshape2::melt(model_output, id.vars = 1) 
+        mod$variable = as.numeric(as.character(mod$variable))
+        
+        mod = mod %>%
+          rename(datetime = DateTime, depth = variable, modeled = value) 
+        
+        
+      } else {
+        mod = observed
+        colnames(mod)[3] = 'modeled'
+        mod$modeled = -99999
+      }
+      
+      
+      
+      colnames(observed)[3] = 'observed'
+      
+      df = merge(observed, mod, by = c('datetime', 'depth'), all = T)
+      
+      df = df %>% 
+        mutate(residual = (observed - modeled)^2)
+      
+      nrmse = sqrt(sum(df$residual, na.rm = T)/length(na.omit(df$observed))) / (max(df$observed, na.rm = T) - min(df$observed, na.rm = T))
+      
+      nse = 1 - sum(df$residual, na.rm = T)/sum((df$observed - mean(df$observed, na.rm = T))^2, na.rm = T)
+      
+      lnlikelihood = sum(dnorm(df$observed, mean = df$modeled, log = TRUE), na.rm = T)
+      
+      all_nrmse <- append(all_nrmse, nrmse)
+      all_nse = append(all_nse, nse)
+      all_likelihood = append(all_likelihood, lnlikelihood)
+      
+      
+    }
+    
+    fit = (sum(all_nrmse))
+  }
+  
+  unlink(temp_folder, recursive = T)
+  # 
+  # dat = (matrix(all_nrmse, nrow= 1))
+  # colnames(dat) = var
+  # dat.df = as.data.frame(cbind(data.frame('time' = format(Sys.time())), dat,data.frame('NRMSE' = fit)))
+  # 
+  # if(!file.exists(paste0(path,'/calib_results_nrmse.csv'))){
+  #   df = dat.df
+  #   write.csv(dat.df,paste0(path,'/calib_results_nrmse.csv'), row.names = F, quote = F)
+  # }else{
+  #   df = read.csv(paste0(path,'/calib_results_nrmse.csv'))
+  #   df = rbind.data.frame(dat.df, df)
+  #   write.csv(df,paste0(path,'/calib_results_nrmse.csv'), row.names = F, quote = F)
+  # }
+  # g1 = ggplot(reshape2::melt(df, id.vars = c('time', 'NRMSE'))) +
+  #   geom_point(aes(NRMSE, value, col  =as.numeric(as.POSIXct(time)))) + ylab('NRMSE') +  xlab('NRMSE') +
+  #   theme(legend.position="bottom") +
+  #   facet_wrap(~variable, scales = 'free')
+  # ggsave(g1, filename= paste0(path,'/nrmse.png'), dpi = 300, width =20, height = 20, units = 'cm')
+  # 
+  # dat = (matrix(all_nse, nrow= 1))
+  # colnames(dat) = var
+  # dat.df = as.data.frame(cbind(data.frame('time' = format(Sys.time())), dat,data.frame('NRMSE' = fit)))
+  # 
+  # if(!file.exists(paste0(path,'/calib_results_nse.csv'))){
+  #   df = dat.df
+  #   write.csv(dat.df,paste0(path,'/calib_results_nse.csv'), row.names = F, quote = F)
+  # }else{
+  #   df = read.csv(paste0(path,'/calib_results_nse.csv'))
+  #   df = rbind.data.frame(dat.df, df)
+  #   write.csv(df,paste0(path,'/calib_results_nse.csv'), row.names = F, quote = F)
+  # }
+  # 
+  # g1 = ggplot(reshape2::melt(df, id.vars = c('time', 'NRMSE'))) +
+  #   geom_point(aes(NRMSE, value, col  =as.numeric(as.POSIXct(time)))) + ylab('NSE') +  xlab('NRMSE') +
+  #   theme(legend.position="bottom") +
+  #   facet_wrap(~variable, scales = 'free')
+  # ggsave(g1, filename= paste0(path,'/nse.png'), dpi = 300, width =20, height = 20, units = 'cm')
+  # 
+  # dat = (matrix(all_likelihood, nrow= 1))
+  # colnames(dat) = var
+  # dat.df = as.data.frame(cbind(data.frame('time' = format(Sys.time())), dat,data.frame('NRMSE' = fit)))
+  # 
+  # if(!file.exists(paste0(path,'/calib_results_loglike.csv'))){
+  #   df = dat.df
+  #   write.csv(dat.df,paste0(path,'/calib_results_loglike.csv'), row.names = F, quote = F)
+  # }else{
+  #   df = read.csv(paste0(path,'/calib_results_loglike.csv'))
+  #   df = rbind.data.frame(dat.df, df)
+  #   write.csv(df,paste0(path,'/calib_results_loglike.csv'), row.names = F, quote = F)
+  # }
+  # 
+  # 
+  # 
+  # # g1 = ggplot(reshape2::melt(df, id.vars = c('time', 'NRMSE'))) +
+  # #   geom_point(aes(NRMSE, value, col  =variable)) + ylab('NSE') +  xlab('NRMSE') +theme(legend.position="bottom")
+  # g1 = ggplot(reshape2::melt(df, id.vars = c('time', 'NRMSE'))) +
+  #   geom_point(aes(NRMSE, value, col  =as.numeric(as.POSIXct(time)))) + ylab('logLik') +  xlab('NRMSE') +
+  #   theme(legend.position="bottom") +
+  #   facet_wrap(~variable, scales = 'free')
+  # ggsave(g1, filename= paste0(path,'/logLik.png'), dpi = 300, width =20, height = 20, units = 'cm')
+  # 
+  # dat_parm = matrix(p, nrow = 1)
+  # colnames(dat_parm) = calib_setup$pars
+  # 
+  # dat.df_parm = as.data.frame(cbind(data.frame('time' = format(Sys.time())), dat_parm, data.frame('NRMSE' = fit)))
+  # 
+  # if(!file.exists(paste0(path,'/calib_par.csv'))){
+  #   write.csv(dat.df_parm,paste0(path,'/calib_par.csv'), row.names = F, quote = F)
+  # }else{
+  #   df = read.csv(paste0(path,'/calib_par.csv'))
+  #   colnames(dat.df_parm) = colnames(df)
+  #   df = rbind.data.frame(dat.df_parm, df)
+  #   write.csv(df,paste0(path,'/calib_par.csv'), row.names = F, quote = F)
+  # }
+  
+  
+  print(paste("NRMSE:", round(fit,3)))
+  return(fit)
 }

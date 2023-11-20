@@ -17,8 +17,8 @@
 /
 &aed2_oxygen
    oxy_initial = 300
-   Fsed_oxy = -153.7164
-   Ksed_oxy = 65
+   Fsed_oxy = -186.0095
+   Ksed_oxy = 39.57938
    theta_sed_oxy = 1.08
 /
 &aed2_carbon
@@ -32,7 +32,7 @@
    co2_piston_model = 1
    atm_ch4 = 1.76e-06
    ch4_piston_model = 1
-   Fsed_dic = 250
+   Fsed_dic = 233.1929
    Ksed_dic = 7
    theta_sed_dic = 1.08
    Fsed_ch4 = 60
@@ -44,7 +44,7 @@
    methane_reactant_variable = 'OXY_oxy'
 /
 &aed2_silica
-   Fsed_rsi = 15.01802
+   Fsed_rsi = 28.61782
    rsi_initial = 10
    silica_reactant_variable = 'OXY_oxy'
 /
@@ -54,8 +54,8 @@
    n2o_initial = 0.1
    Rdenit = 0.5
    theta_denit = 1.08
-   Rnitrif = 0.5
-   Knitrif = 89.43703
+   Rnitrif = 0.6439842
+   Knitrif = 98.89491
    theta_nitrif = 1.08
    Rnh4o2 = 1
    Rno2o2 = 1
@@ -68,14 +68,14 @@
    Kanmx_amm = 2
    atm_n2o = 3.2e-07
    n2o_piston_model = 4
-   Kdenit = 3
+   Kdenit = 4.71839
    Rdnra = 0.01
    Kdnra_oxy = 2
-   Fsed_amm = 32.65915
+   Fsed_amm = 13.43117
    Ksed_amm = 31.25
    theta_sed_amm = 1.08
-   Fsed_nit = -9.515203
-   Ksed_nit = 9.686642
+   Fsed_nit = -5.615889
+   Ksed_nit = 6.567496
    theta_sed_nit = 1.08
    Fsed_n2o = 0
    Ksed_n2o = 100
@@ -84,8 +84,8 @@
 /
 &aed2_phosphorus
    frp_initial = 0.065
-   Fsed_frp = 0.35
-   Ksed_frp = 200
+   Fsed_frp = 0.3951866
+   Ksed_frp = 184.8026
    theta_sed_frp = 1.000719
    phosphorus_reactant_variable = 'OXY_oxy'
    simPO4Adsorption = .true.
@@ -107,9 +107,9 @@
    docr_initial = 120
    dopr_initial = 0.1
    cpom_initial = 100
-   Rdom_minerl = 0.02376604
-   Kpom_hydrol = 60
-   Kdom_minerl = 67.61804
+   Rdom_minerl = 0.007658221
+   Kpom_hydrol = 87.05029
+   Kdom_minerl = 77.85541
    Rpoc_hydrol = 0.07
    Rpon_hydrol = 0.05
    Rpop_hydrol = 0.08

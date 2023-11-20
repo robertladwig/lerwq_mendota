@@ -12,6 +12,7 @@ calibrate_glm <- function(var = 'temp',
                              metric = 'NRMSE',
                              target.fit = 1.5,
                              target.iter = 100,
+                          pop_members = NA,
                              plotting = TRUE,
                              output,
                           parallelMode = F){
@@ -20,7 +21,7 @@ calibrate_glm <- function(var = 'temp',
   message('Starting new calibration routine.')
  readline(prompt = "This will overwrite any nml-files in the current directory, press any button to continue.");
   
- if (parallel == F){
+ if (parallelMode == F){
    if (file.exists(paste0(path,'/calib_results_nse.csv'))){
      file.remove(paste0(path,'/calib_results_nse.csv'))
    }
@@ -73,10 +74,13 @@ calibrate_glm <- function(var = 'temp',
   #                     phyto_file = phyto_file,
   #                     glm_file = glm_file,
   #                     aed_file = aed_file)
+  if (!is.na(pop_members)){
+    NP = pop_members
+  }
   if (parallelMode == F){
     glmOPT <- DEoptim(fn = run_glm_optim, lower = calib_setup$lb,
                       upper = calib_setup$ub,
-                      control = list(itermax = target.iter),
+                      DEoptim.control(itermax = target.iter, NP = NP),
                       glmcmd = glmcmd, var = var,
                       scaling = scaling, metric = metric, verbose = verbose,
                       calib_setup = calib_setup, path = path, field_file = field_file,
@@ -86,7 +90,8 @@ calibrate_glm <- function(var = 'temp',
   } else {
     glmOPT <- DEoptim(fn = run_glm_optim_parallel, lower = calib_setup$lb,
                       upper = calib_setup$ub,
-                      control = list(itermax = target.iter, parallelType=1,
+                      DEoptim.control(itermax = target.iter, 
+                                      NP = NP, parallelType=1,
                                      packages = c('glmtools', 'dplyr'),
                                      parVar = c('glmcmd', 'var', 'scaling', 'metric', 'verbose',
                                                 'calib_setup', 'path', 'field_file', 'phyto_file', 'glm_file', 'aed_file')),
@@ -492,6 +497,7 @@ run_glm_optim_parallel <- function(p, glmcmd, var, scaling, metric, verbose, cal
                           glm_file = glm_file,
                           aed_file = aed_file){
   
+  message('Start')
   wrapper_scales <- function(x, lb, ub){
     y <-  lb+(ub-lb)/(10)*(x)
     return(y)

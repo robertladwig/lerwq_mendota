@@ -2,7 +2,24 @@ library(ggplot2)
 library(tidyverse)
 library(glmtools)
 
-df = read.csv("GLM-AED2/calib_results_nse.csv")
+df = read.csv("../GLM-AED2/calib_par.csv")
+
+m.df = reshape2::melt(df, id.vars = c('time','NRMSE'))
+
+ggplot(m.df) +
+  geom_point(aes(as.POSIXct(time), value, col = NRMSE)) +
+  facet_wrap(~ variable, scales = 'free') +
+  scale_colour_continuous(type = rev("viridis")) 
+
+ggplot(m.df %>% mutate(y = 0) %>% filter(NRMSE < 10), aes(x = value, col = NRMSE)) +
+  geom_density() +
+  facet_wrap(~ variable, scales = 'free') +
+  geom_jitter(aes(value, y, col = NRMSE), height = 0.001) +
+  scale_colour_continuous(type = rev("viridis")) 
+# geom_jitter(data = m.df, aes(time,value), height = 0.01)
+
+
+df = read.csv("../GLM-AED2/calib_results_nse.csv")
 
 df = df %>% mutate(flag = temp + OXY_oxy + NIT_nit + NIT_amm + PHS_frp + SIL_rsi + OGM_doc +
                      PHY_TCHLA) %>%

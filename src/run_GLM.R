@@ -2,7 +2,7 @@
 rm(list = ls())
 
 # set wd to current dir of script
-setwd(dirname(rstudioapi::getSourceEditorContext()$path))
+#setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 # setwd("C:/Scratch/Ladwig/lerwq_mendota/src")
 
 library(glmtools)
